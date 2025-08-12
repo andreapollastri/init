@@ -12,8 +12,8 @@ DOMAIN=127001.it
 ENDPOINT=https:///www.127001.it/init
 
 # Set the minimum stability for Composer Filament installation
-# (stable, beta, dev, etc...) # Currently set to beta for Filament 4.0
-COMPOSER_MINIMUM_STABILITY=beta
+# (stable, beta, dev, etc...)
+COMPOSER_MINIMUM_STABILITY=stable
 
 TOTAL_STEPS=21
 CURRENT_STEP=0
