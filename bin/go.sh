@@ -11,7 +11,7 @@ LARAVEL_VERSION=12
 DOMAIN=127001.it
 ENDPOINT=https:///www.127001.it/init
 
-# Set the minimum stability for Composer Filament installation
+# Set the minimum stability for Composer installations
 # (stable, beta, dev, etc...)
 COMPOSER_MINIMUM_STABILITY=stable
 
@@ -147,6 +147,8 @@ mv composer_temp.json composer.json
 
 sed -i '' "s/LARAVELV/$LARAVEL_VERSION/" composer.json
 
+./vendor/bin/sail bash -c "composer config minimum-stability $COMPOSER_MINIMUM_STABILITY"
+
 
 
 
@@ -274,9 +276,6 @@ sleep 30
 
 ########################### STEP #################################
 show_progress "Installing Filament"
-
-# Temp for Filament 4.0 
-./vendor/bin/sail bash -c "composer config minimum-stability beta"
 
 ./vendor/bin/sail bash -c "composer require filament/filament:"^$FILAMENT_VERSION" -W"
 ./vendor/bin/sail bash -c "php artisan filament:install --no-interaction"
