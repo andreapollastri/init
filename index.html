@@ -494,7 +494,7 @@
         <div class="code-section">
           <div class="code-label">Quick Installation Command</div>
           <div class="code-block" id="installCommand">
-            curl https://www.127001.it/init/bin/go.sh > go.sh && sh go.sh
+            curl https://init.127001.it/bin/go.sh > go.sh && sh go.sh
           </div>
           <div class="copy-feedback" id="copyFeedback"></div>
         </div>
@@ -581,32 +581,31 @@
     const typingCommand = document.getElementById("typingCommand");
     const cursor = document.getElementById("cursor");
 
-    const command =
-      "curl https://www.127001.it/init/bin/go.sh > go.sh && sh go.sh";
+    const command = "curl https://init.127001.it/bin/go.sh > go.sh && sh go.sh";
 
     const randomEndpoints = [
       {
-        url: "https://quiet-meadow-4721.127001.it",
-        panel: "https://quiet-meadow-4721.127001.it/admin",
-        mailpit: "https://quiet-meadow-4721.127001.it:8025",
-        minio: "https://quiet-meadow-4721.127001.it:9001",
-        mysql: "mysql://127001:password@127.0.0.1:33061/127001_db",
+        url: "https://my-awesome-blog.127001.it",
+        panel: "https://my-awesome-blog.127001.it/admin",
+        mailpit: "https://my-awesome-blog.127001.it:8025",
+        minio: "https://my-awesome-blog.127001.it:9001",
+        mysql: "mysql://127001:password@127.0.0.1:33061/blog_db",
         redis: "redis://127.0.0.1:63791",
       },
       {
-        url: "https://crimson-wave-8932.127001.it",
-        panel: "https://crimson-wave-8932.127001.it/admin",
-        mailpit: "https://crimson-wave-8932.127001.it:8025",
-        minio: "https://crimson-wave-8932.127001.it:9001",
-        mysql: "mysql://127001:password@127.0.0.1:33062/127001_db",
+        url: "https://new-landing-page.127001.it",
+        panel: "https://new-landing-page.127001.it/admin",
+        mailpit: "https://new-landing-page.127001.it:8025",
+        minio: "https://new-landing-page.127001.it:9001",
+        mysql: "mysql://127001:password@127.0.0.1:33062/landing_db",
         redis: "redis://127.0.0.1:63792",
       },
       {
-        url: "https://azure-forest-2156.127001.it",
-        panel: "https://azure-forest-2156.127001.it/admin",
-        mailpit: "https://azure-forest-2156.127001.it:8025",
-        minio: "https://azure-forest-2156.127001.it:9001",
-        mysql: "mysql://127001:password@127.0.0.1:33063/127001_db",
+        url: "https://company-crm.127001.it",
+        panel: "https://company-crm.127001.it/admin",
+        mailpit: "https://company-crm.127001.it:8025",
+        minio: "https://company-crm.127001.it:9001",
+        mysql: "mysql://127001:password@127.0.0.1:33063/crm_db",
         redis: "redis://127.0.0.1:63793",
       },
     ];
