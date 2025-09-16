@@ -191,7 +191,7 @@ unlink database/database.sqlite
 unlink .env
 unlink .env.example
 
-curl -s $ENDPOINT/stubs/.env.example > .env.example
+curl -s $ENDPOINT/stubs/env.txt > .env.example
 
 
 
