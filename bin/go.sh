@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# curl https://init.127001.it/go.sh > go.sh && sh go.sh
+# curl https://web.ap.it/init/go.sh > go.sh && sh go.sh
 
 PHP_VERSION_ATTR=php84
 PHP_VERSION=8.4
@@ -9,7 +9,7 @@ MYSQL_VERSION=8
 FILAMENT_VERSION=4.0
 LARAVEL_VERSION=12
 DOMAIN=127001.it
-ENDPOINT=https:///init.127001.it
+ENDPOINT=https://web.ap.it/init
 
 # Set the minimum stability for Composer installations
 # (stable, beta, dev, etc...)
