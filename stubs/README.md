@@ -1,6 +1,6 @@
 # 👾 initHost
 
-This project has been initialized with the [Initializer for Laravel and Filament](https://init.127001.it/).
+This project has been initialized with the [Initializer for Laravel and Filament](https://web.ap.it/init/).
 
 #### URL
 
