@@ -185,7 +185,7 @@ docker run --rm \
 show_progress "Setting up database and environment"
 
 unlink database/migrations/0001_01_01_000000_create_users_table.php
-curl -s $ENDPOINT/stubs/database/migrations/0001_01_01_000000_create_users_table.php > database/migrations/0001_01_01_000000_create_users_table.php
+curl -s $ENDPOINT/stubs/database/migrations/0001_01_01_000000_create_users_table.txt > database/migrations/0001_01_01_000000_create_users_table.php
 
 unlink database/database.sqlite
 unlink .env
@@ -280,9 +280,9 @@ show_progress "Installing Filament"
 ./vendor/bin/sail bash -c "composer require filament/filament:"^$FILAMENT_VERSION" -W"
 ./vendor/bin/sail bash -c "php artisan filament:install --no-interaction"
 
-curl -s $ENDPOINT/stubs/app/Providers/AppServiceProvider.php > app/Providers/AppServiceProvider.php
-curl -s $ENDPOINT/stubs/app/Providers/FilamentServiceProvider.php > app/Providers/FilamentServiceProvider.php
-curl -s $ENDPOINT/stubs/bootstrap/providers.php > bootstrap/providers.php
+curl -s $ENDPOINT/stubs/app/Providers/AppServiceProvider.txt > app/Providers/AppServiceProvider.php
+curl -s $ENDPOINT/stubs/app/Providers/FilamentServiceProvider.txt > app/Providers/FilamentServiceProvider.php
+curl -s $ENDPOINT/stubs/bootstrap/providers.txt > bootstrap/providers.php
 
 
 
@@ -327,10 +327,10 @@ curl -s $ENDPOINT/stubs/phpstan.neon.dist > phpstan.neon.dist
 cp phpstan.neon.dist phpstan.neon
 
 unlink app/Models/User.php
-curl -s $ENDPOINT/stubs/app/Models/User.php > app/Models/User.php
+curl -s $ENDPOINT/stubs/app/Models/User.txt > app/Models/User.php
 
 unlink resources/views/welcome.blade.php
-curl -s $ENDPOINT/stubs/resources/views/welcome.blade.php > resources/views/welcome.blade.php
+curl -s $ENDPOINT/stubs/resources/views/welcome.blade.txt > resources/views/welcome.blade.php
 
 ./vendor/bin/sail bash -c "./vendor/bin/pint"
 
