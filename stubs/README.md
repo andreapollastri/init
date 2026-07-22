@@ -72,6 +72,14 @@ sh bin/pint.sh
 sh bin/stan.sh
 ```
 
+**AI product workflow** ([Larapilot](https://larapilot.web.ap.it) + Laravel Boost)
+
+Skills are already published for Cursor (`/larapilot-inception`, `/larapilot-spec`, …). Start with:
+
+```bash
+/larapilot-inception "your idea"
+```
+
 **Start queue worker**
 
 ```bash

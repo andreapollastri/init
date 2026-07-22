@@ -59,10 +59,10 @@ show_progress() {
 clear
 
 echo "\n"
-echo "\033[0m  \033[1;33m🚀 \033[1;36mInitializer for Laravel and Filament\033[0m"
+echo "\033[0m  \033[1;33m🚀 \033[1;36mInitializer for Laravel, Filament, and Larapilot\033[0m"
 echo "\n"
 echo "\033[0m  \033[1;32m✨ This script will set up a new Laravel project, including Filament,\033[0m"
-echo "\033[0m     \033[1;32messential packages, and a preconfigured Laravel Sail environment,\033[0m"
+echo "\033[0m     \033[1;32mLarapilot + Boost skills, and a preconfigured Laravel Sail environment,\033[0m"
 echo "\033[0m     \033[1;32mallowing you to start developing your application with ease.\033[0m"
 echo "\n"
 echo "\033[0m  \033[1;34m🤟 It comes with a secure subdomain based on 127001.it service\033[0m"
@@ -314,10 +314,29 @@ echo '/phpstan.neon' >> .gitignore
 
 
 ########################### STEP #################################
-show_progress "Installing Boost"
+show_progress "Installing Larapilot and Boost"
 
-./vendor/bin/sail bash -c "composer require --dev laravel/boost"
-./vendor/bin/sail bash -c "php artisan filament:install --no-interaction"
+./vendor/bin/sail bash -c "composer require --dev andreapollastri/larapilot"
+./vendor/bin/sail bash -c "php artisan larapilot:install --no-interaction"
+
+# Pre-seed Boost so non-interactive install includes Larapilot skills + Cursor.
+# (boost:install runs inside Sail, so host agents like Cursor are not auto-detected.)
+cat > boost.json <<'EOF'
+{
+    "agents": [
+        "cursor"
+    ],
+    "guidelines": true,
+    "mcp": true,
+    "packages": [
+        "andreapollastri/larapilot"
+    ],
+    "sail": true,
+    "skills": []
+}
+EOF
+
+./vendor/bin/sail bash -c "php artisan boost:install --guidelines --skills --mcp --no-interaction"
 
 
 

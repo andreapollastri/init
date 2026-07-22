@@ -20,7 +20,8 @@
 | Caddy              | latest  | Reverse proxy with local SSL |
 | PHPStan / Larastan | latest  | Static analysis              |
 | Laravel Pint       | latest  | Code style fixer             |
-| Laravel Boost      | latest  | Dev productivity tools       |
+| Laravel Boost      | latest  | AI guidelines, skills, MCP      |
+| Larapilot          | latest  | Spec-driven AI product workflow |
 | GitHub Actions     | —       | CI workflow preconfigured    |
 
 Every project also gets:
@@ -54,7 +55,7 @@ The installer will:
 7. Start all Docker containers via Sail
 8. Run database migrations and seeders
 9. Install Filament and configure the admin panel
-10. Install additional packages (S3, PHPStan, Boost)
+10. Install additional packages (S3, PHPStan, Larapilot + Boost with `/larapilot-*` skills)
 11. Adjust file permissions
 12. Install and trust the local SSL certificate
 
