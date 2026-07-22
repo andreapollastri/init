@@ -1,1473 +1,947 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex, nofollow" />
-  <title>init.web.ap.it — Laravel & Filament Initializer</title>
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
+  <meta name="description" content="init — one command to scaffold a complete Laravel 13 + Filament local stack on macOS with Docker, SSL, and a real *.127001.it subdomain." />
+  <title>init — Laravel &amp; Filament Initializer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #fafaf8;
-      --surface: #f3f3ee;
-      --surface-alt: #eceee8;
-      --text-primary: #1c1c1a;
-      --text-secondary: #6b6b63;
-      --text-muted: #9b9b91;
-      --accent: #2c5f6e;
-      --accent-hover: #234e5b;
-      --accent-light: #e8f4f7;
-      --border: #e0e0d8;
-      --border-strong: #c8c8be;
-      --terminal-bg: #1a1f2e;
-      --terminal-surface: #232838;
+      --ink: #141820;
+      --ink-soft: #2a3344;
+      --muted: #5c677a;
+      --line: #c5cedb;
+      --paper: #e8eef6;
+      --surface: #f2f5fa;
       --white: #ffffff;
-      --green: #22c55e;
-      --blue: #60a5fa;
-      --amber: #f59e0b;
-      --red: #ef4444;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.04);
-      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+      --signal: #3b6fd9;
+      --signal-deep: #2a54b0;
+      --phosphor: #7eb0ff;
+      --terminal: #141820;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --sans: "Source Sans 3", Georgia, sans-serif;
+      --display: "Space Grotesk", var(--sans);
+      --max: 1120px;
+      --docs-sidebar: 200px;
     }
 
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
     }
 
     body {
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+      font-size: 1.0625rem;
       -webkit-font-smoothing: antialiased;
-      background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.6;
-      min-height: 100vh;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color 0.15s;
+    a { color: inherit; }
+    code, pre { font-family: var(--mono); }
+
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 45% at 8% -8%, rgba(59, 111, 217, 0.14), transparent 55%),
+        radial-gradient(ellipse 55% 40% at 95% 15%, rgba(20, 24, 32, 0.06), transparent 50%),
+        linear-gradient(180deg, var(--surface) 0%, var(--paper) 42%, var(--paper) 100%);
     }
 
-    a:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
+    .atmosphere::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(20, 24, 32, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 24, 32, 0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 65%);
     }
 
-    /* ─── NAV ─── */
-    nav {
+    /* Nav */
+    .nav {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(250, 250, 248, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 56px;
+      z-index: 50;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 1.5rem;
+      background: rgba(242, 245, 250, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
 
     .nav-brand {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: var(--ink);
     }
 
-    .nav-brand:hover {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .nav-brand svg { width: 1.55rem; height: 1.55rem; }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      list-style: none;
+      gap: 1.35rem;
+      font-size: 0.95rem;
+      font-weight: 500;
     }
 
     .nav-links a {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      transition: color 0.15s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
       text-decoration: none;
-    }
-
-    .nav-github {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--text-primary);
-      color: var(--white) !important;
-      padding: 0.4rem 0.9rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.8rem !important;
-      font-weight: 500 !important;
-      transition: background 0.15s !important;
-    }
-
-    .nav-github:hover {
-      background: var(--accent) !important;
-      text-decoration: none !important;
-    }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-      width: 36px;
-      height: 36px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: var(--radius-sm);
-      transition: background 0.15s;
-    }
-
-    .nav-hamburger:hover {
-      background: var(--surface);
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 20px;
-      height: 2px;
-      background: var(--text-primary);
-      border-radius: 2px;
-      transition: transform 0.25s ease, opacity 0.25s ease;
-      transform-origin: center;
-    }
-
-    .nav-hamburger.open span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .nav-hamburger.open span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .nav-hamburger.open span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    @media (max-width: 640px) {
-      .nav-hamburger {
-        display: flex;
-      }
-
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
-        position: absolute;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: rgba(250, 250, 248, 0.97);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
-        padding: 0.75rem 1.5rem 1rem;
-        list-style: none;
-        box-shadow: var(--shadow-md);
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav-links li {
-        width: 100%;
-      }
-
-      .nav-links a:not(.nav-github) {
-        display: block;
-        padding: 0.6rem 0;
-        border-bottom: 1px solid var(--border);
-        font-size: 0.9rem;
-      }
-
-      .nav-links li:last-child a {
-        border-bottom: none;
-        margin-top: 0.5rem;
-      }
-
-      .nav-github {
-        display: inline-flex !important;
-        width: auto;
-        padding: 0.4rem 0.9rem !important;
-      }
-    }
-
-    /* ─── SECTIONS ─── */
-    section {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-    }
-
-    section+section {
-      border-top: 1px solid var(--border);
-    }
-
-    /* ─── HERO ─── */
-    .hero {
-      text-align: center;
-      padding-top: 6rem;
-      padding-bottom: 5rem;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      background: var(--accent-light);
-      border: 1px solid #b8dce4;
-      padding: 0.35rem 0.8rem;
-      border-radius: 999px;
-      margin-bottom: 1.75rem;
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.25rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--text-primary);
-      margin-bottom: 1.25rem;
-    }
-
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 560px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.7;
-    }
-
-    /* ─── TERMINAL ─── */
-    .terminal {
-      background: var(--terminal-bg);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      font-family: "Menlo", "Monaco", "Consolas", monospace;
-      text-align: left;
-      margin: 2.5rem auto;
-      max-width: 680px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .terminal-bar {
-      background: var(--terminal-surface);
-      padding: 0.7rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .terminal-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .terminal-dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-    }
-
-    .dot-red {
-      background: #ff5f56;
-    }
-
-    .dot-yellow {
-      background: #ffbd2e;
-    }
-
-    .dot-green {
-      background: #27ca3f;
-    }
-
-    .terminal-label {
-      font-size: 0.75rem;
-      color: #6b7280;
-      font-weight: 500;
-    }
-
-    .terminal-body {
-      padding: 1.5rem;
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      font-size: 0.8rem;
-      line-height: 1.65;
-      color: #d1d5db;
-    }
-
-    .terminal-body.centered {
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .t-line {
-      margin-bottom: 0.3rem;
-      word-break: break-all;
-    }
-
-    .t-prompt {
-      color: var(--green);
-      font-weight: 600;
-    }
-
-    .t-cmd {
-      color: #e5e7eb;
-    }
-
-    .t-success {
-      color: var(--green);
-      font-weight: 600;
-    }
-
-    .t-info {
-      color: var(--blue);
-    }
-
-    .t-warn {
-      color: var(--amber);
-      font-weight: 600;
-    }
-
-    .t-url {
-      color: #e5e7eb;
-      font-weight: 500;
-    }
-
-    .t-cursor {
-      color: #e5e7eb;
-      animation: blink 1s step-end infinite;
-    }
-
-    .t-progress-wrap {
-      width: 100%;
-      max-width: 360px;
-      margin: 0.5rem auto;
-    }
-
-    .t-progress-label {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-bottom: 0.4rem;
-    }
-
-    .t-progress-track {
-      background: #374151;
-      border-radius: 4px;
-      height: 6px;
-      overflow: hidden;
-    }
-
-    .t-progress-fill {
-      background: linear-gradient(90deg, var(--green), #16a34a);
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.2s linear;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .t-progress-fill::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-      animation: shimmer 1.5s infinite;
-    }
-
-    @keyframes blink {
-
-      0%,
-      49% {
-        opacity: 1;
-      }
-
-      50%,
-      100% {
-        opacity: 0;
-      }
-    }
-
-    @keyframes shimmer {
-      from {
-        transform: translateX(-100%);
-      }
-
-      to {
-        transform: translateX(200%);
-      }
-    }
-
-    /* ─── INSTALL COMMAND ─── */
-    .install-wrap {
-      max-width: 600px;
-      margin: 0 auto 1rem;
-    }
-
-    .install-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 0.6rem;
-    }
-
-    .install-cmd {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: var(--text-primary);
-      color: #e5e7eb;
-      border-radius: var(--radius-md);
-      padding: 0.9rem 1.1rem;
-      font-family: "Menlo", "Monaco", monospace;
-      font-size: 0.8rem;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      position: relative;
-      text-align: left;
-    }
-
-    .install-cmd:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(44, 95, 110, 0.12);
-    }
-
-    .install-cmd .prompt-symbol {
-      color: var(--green);
-      user-select: none;
-      flex-shrink: 0;
-    }
-
-    .install-cmd .cmd-text {
-      flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .copy-icon {
-      flex-shrink: 0;
-      opacity: 0.4;
-      font-size: 0.85rem;
-      transition: opacity 0.15s;
-    }
-
-    .install-cmd:hover .copy-icon {
-      opacity: 0.8;
-    }
-
-    .install-hint {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 0.6rem;
-      min-height: 1.1rem;
+      color: var(--ink-soft);
       transition: color 0.2s;
     }
 
-    .install-hint.success {
-      color: var(--green);
-    }
+    .nav-links a:hover { color: var(--signal); }
 
-    .requirements-note {
+    .nav-cta {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: #fef9e7;
-      border: 1px solid #f5d56f;
-      color: #7a5c0a;
-      border-radius: var(--radius-sm);
-      padding: 0.5rem 1rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-top: 1.25rem;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--white) !important;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
     }
 
-    /* ─── SECTION HEADERS ─── */
-    .section-eyebrow {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      margin-bottom: 0.6rem;
+    .nav-cta:hover {
+      background: var(--signal);
+      border-color: var(--signal);
     }
 
-    .section-title {
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-      line-height: 1.2;
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      padding: 0.35rem;
     }
 
-    .section-lead {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      max-width: 600px;
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      transition: transform 0.2s, opacity 0.2s;
     }
 
-    /* ─── WHAT YOU GET ─── */
-    .what-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-top: 2.5rem;
-    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    .what-item {
-      background: var(--white);
-      padding: 1.5rem;
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 3.6rem);
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      justify-content: flex-end;
+      overflow: hidden;
     }
 
-    .what-item:hover {
+    .hero-plane {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 70% at 70% 40%, rgba(126, 176, 255, 0.16), transparent 55%),
+        linear-gradient(165deg, #0c1018 0%, #141820 45%, #1a2740 100%);
+    }
+
+    .hero-plane::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(126, 176, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(126, 176, 255, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, #000 20%, transparent 90%);
+      animation: grid-drift 28s linear infinite;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      width: 100%;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 2.25rem;
+    }
+
+    .hero-brand {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(4.5rem, 16vw, 9.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+      color: var(--white);
+      animation: rise 0.75s ease both;
+    }
+
+    .hero-brand span { color: var(--phosphor); }
+
+    .hero-content h1 {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(1.35rem, 3vw, 1.85rem);
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      color: rgba(255, 255, 255, 0.92);
+      margin: 1.15rem 0 0.65rem;
+      max-width: 28rem;
+      animation: rise 0.75s 0.08s ease both;
+    }
+
+    .hero-content > p {
+      color: rgba(232, 238, 246, 0.72);
+      max-width: 34rem;
+      font-size: 1.05rem;
+      animation: rise 0.75s 0.14s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      animation: rise 0.75s 0.2s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.1rem;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: var(--phosphor);
+      color: var(--ink);
+      border-color: var(--phosphor);
+    }
+
+    .btn-primary:hover {
+      background: #a8c9ff;
+      border-color: #a8c9ff;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-terminal {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      margin-top: auto;
+      background: rgba(8, 12, 20, 0.92);
+      border-top: 1px solid rgba(126, 176, 255, 0.22);
+      animation: rise 0.85s 0.22s ease both;
+      min-height: 11.5rem;
+    }
+
+    .hero-terminal-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem 1.5rem;
+      font-family: var(--mono);
+      font-size: clamp(0.78rem, 1.6vw, 0.92rem);
+      line-height: 1.65;
+      color: rgba(232, 238, 246, 0.88);
+      overflow-x: auto;
+      min-height: 9rem;
+    }
+
+    .hero-terminal .prompt { color: var(--phosphor); }
+    .hero-terminal .dim { color: rgba(232, 238, 246, 0.45); }
+    .hero-terminal .ok { color: #5ddea0; }
+    .hero-terminal .info { color: var(--phosphor); }
+    .hero-terminal .warn { color: #f0b429; }
+    .hero-terminal .url { color: #9ec2ff; }
+
+    .caret {
+      display: inline-block;
+      width: 0.55ch;
+      height: 1.05em;
+      background: var(--phosphor);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blink 1.05s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes grid-drift {
+      from { background-position: 0 0; }
+      to { background-position: 40px 40px; }
+    }
+
+    /* Docs shell */
+    .docs {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 5rem;
+      display: grid;
+      grid-template-columns: var(--docs-sidebar) minmax(0, 1fr);
+      gap: 3rem;
+    }
+
+    .docs-nav {
+      position: sticky;
+      top: 5rem;
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .docs-nav-label {
+      font-family: var(--display);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+
+    .docs-nav a {
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      font-weight: 500;
+      padding: 0.35rem 0.5rem;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .docs-nav a:hover,
+    .docs-nav a.active {
+      color: var(--signal-deep);
+      border-left-color: var(--signal);
+      background: rgba(59, 111, 217, 0.08);
+    }
+
+    .docs-main { min-width: 0; }
+
+    .docs-main section {
+      padding-bottom: 2.75rem;
+      margin-bottom: 2.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .docs-main section:last-of-type {
+      border-bottom: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .docs-main h2 {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.55rem, 2.8vw, 1.9rem);
+      letter-spacing: -0.035em;
+      margin-bottom: 0.55rem;
+    }
+
+    .docs-main h3 {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      margin: 1.75rem 0 0.55rem;
+    }
+
+    .docs-main p,
+    .docs-main li { color: var(--ink-soft); }
+
+    .docs-main p + p { margin-top: 0.85rem; }
+
+    .docs-main .lead {
+      font-size: 1.12rem;
+      color: var(--muted);
+      max-width: 40rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .docs-main ul,
+    .docs-main ol {
+      margin: 0.85rem 0 0 1.2rem;
+    }
+
+    .docs-main li + li { margin-top: 0.35rem; }
+
+    .docs-main a {
+      color: var(--signal-deep);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .docs-main a:hover { border-bottom-color: var(--signal); }
+
+    .docs-main code {
+      font-size: 0.88em;
+      background: rgba(20, 24, 32, 0.06);
+      padding: 0.12em 0.35em;
+      border-radius: 3px;
+    }
+
+    .code-block {
+      position: relative;
+      margin: 1rem 0;
+      background: var(--terminal);
+      color: #d7e0ef;
+      border: 1px solid #1e2838;
+      overflow: hidden;
+    }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    .code-block .copy {
+      position: absolute;
+      top: 0.55rem;
+      right: 0.55rem;
+      border: 1px solid rgba(126, 176, 255, 0.35);
+      background: rgba(20, 24, 32, 0.85);
+      color: var(--phosphor);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      padding: 0.28rem 0.5rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .code-block .copy:hover,
+    .code-block .copy.copied {
+      background: var(--phosphor);
+      color: var(--ink);
+      border-color: var(--phosphor);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1rem 0;
+      border: 1px solid var(--line);
       background: var(--surface);
     }
 
-    .what-icon {
-      font-size: 1.4rem;
-      line-height: 1;
-      margin-bottom: 0.25rem;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
     }
 
-    .what-name {
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      font-family: var(--display);
       font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text-primary);
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(20, 24, 32, 0.03);
     }
 
-    .what-desc {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
+    tr:last-child td { border-bottom: 0; }
+
+    td code { white-space: nowrap; }
+
+    .note {
+      margin: 1.1rem 0;
+      padding: 0.9rem 1rem;
+      border-left: 3px solid var(--signal);
+      background: rgba(59, 111, 217, 0.08);
+      color: var(--ink-soft);
+      font-size: 0.97rem;
     }
 
-    /* ─── HOW IT WORKS ─── */
+    .note strong { color: var(--ink); }
+
+    .stack-list {
+      margin: 1.25rem 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .stack-row {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 1rem;
+      padding: 0.95rem 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+
+    .stack-row strong {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 0.98rem;
+      letter-spacing: -0.02em;
+    }
+
+    .stack-row span { color: var(--muted); font-size: 0.95rem; }
+
     .steps {
-      margin-top: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
+      margin: 1.25rem 0 0;
+      border-top: 1px solid var(--line);
     }
 
     .step {
       display: grid;
-      grid-template-columns: 64px 1fr;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .step:last-child {
-      border-bottom: none;
-    }
-
-    .step-num {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 1.5rem;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      border-right: 1px solid var(--border);
-    }
-
-    .step-content {
-      padding: 1.4rem 1.5rem;
-    }
-
-    .step-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text-primary);
-      margin-bottom: 0.35rem;
-    }
-
-    .step-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .step-code {
-      display: inline-block;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-family: "Menlo", "Monaco", monospace;
-      font-size: 0.75rem;
-      color: var(--accent);
-      padding: 0.2rem 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    /* ─── 127001.it SECTION ─── */
-    .dns-section {
-      background: var(--white);
-    }
-
-    .dns-visual {
-      margin-top: 2.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      font-family: "Menlo", "Monaco", monospace;
-      font-size: 0.8rem;
-    }
-
-    .dns-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .dns-table th {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border);
-      padding: 0 0 0.75rem;
-      text-align: left;
-    }
-
-    .dns-table th+th {
-      padding-left: 2rem;
-    }
-
-    .dns-table td {
-      padding: 0.6rem 0 0;
-      color: var(--text-primary);
-      vertical-align: top;
-    }
-
-    .dns-table td+td {
-      padding-left: 2rem;
-    }
-
-    .dns-record-type {
-      color: var(--amber);
-    }
-
-    .dns-record-name {
-      color: var(--accent);
-    }
-
-    .dns-record-value {
-      color: var(--green);
-    }
-
-    .dns-record-comment {
-      color: var(--text-muted);
-    }
-
-    .dns-examples {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .dns-example {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.8rem;
-    }
-
-    .dns-example-url {
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .dns-arrow {
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .dns-example-result {
-      color: var(--text-secondary);
-    }
-
-    .dns-link-box {
-      margin-top: 2rem;
-      display: flex;
-      align-items: center;
+      grid-template-columns: 3rem 1fr;
       gap: 1rem;
-      padding: 1rem 1.25rem;
-      background: var(--accent-light);
-      border: 1px solid #b8dce4;
-      border-radius: var(--radius-md);
+      padding: 1.15rem 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    .dns-link-box-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
-
-    .dns-link-box-text {
-      flex: 1;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    .dns-link-box-text strong {
-      color: var(--text-primary);
-    }
-
-    .dns-link-box-cta {
-      flex-shrink: 0;
+    .step-n {
+      font-family: var(--mono);
       font-size: 0.8rem;
       font-weight: 600;
-      color: var(--accent);
-      white-space: nowrap;
+      color: var(--signal);
+      padding-top: 0.15rem;
     }
 
-    /* ─── CIPI SECTION ─── */
-    .cipi-section {
-      background: var(--white);
+    .step h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
     }
 
-    .cipi-header {
-      margin-bottom: 2.5rem;
+    .step p { margin: 0; }
+
+    .pair {
+      margin-top: 3rem;
+      padding: 1.75rem 0 0;
+      border-top: 1px solid var(--line);
     }
 
-    .cipi-features {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
+    .pair h2 { margin-bottom: 0.4rem; }
 
-    .cipi-feature {
-      background: var(--white);
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .cipi-feature:hover {
-      background: var(--surface);
-    }
-
-    .cipi-feature-icon {
-      font-size: 1rem;
-      flex-shrink: 0;
-      margin-top: 0.05rem;
-    }
-
-    .cipi-feature-text {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    .cipi-feature-text strong {
-      display: block;
-      color: var(--text-primary);
-      font-weight: 600;
-      font-size: 0.875rem;
-      margin-bottom: 0.15rem;
-    }
-
-    .cipi-terminal {
-      max-width: 100%;
-    }
-
-    .cipi-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      background: var(--text-primary);
+    .pair .btn {
+      margin-top: 1.1rem;
+      background: var(--ink);
       color: var(--white);
-      padding: 0.7rem 1.4rem;
-      border-radius: var(--radius-md);
-      font-size: 0.875rem;
-      font-weight: 600;
-      transition: background 0.15s;
-      text-decoration: none;
+      border-color: var(--ink);
     }
 
-    .cipi-cta:hover {
-      background: var(--accent);
-      text-decoration: none;
-      color: var(--white);
+    .pair .btn:hover {
+      background: var(--signal);
+      border-color: var(--signal);
     }
 
-    /* ─── FOOTER ─── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 2.5rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 860px;
-      margin: 0 auto;
-      flex-wrap: wrap;
-      gap: 1rem;
+      border-top: 1px solid var(--line);
+      padding: 2rem 1.5rem 2.75rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
     }
 
-    .footer-left {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .footer-left a {
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .footer-left a:hover {
-      color: var(--accent);
+    footer a {
+      color: var(--signal-deep);
       text-decoration: none;
+      font-weight: 600;
     }
 
-    .footer-right {
-      display: flex;
-      gap: 1.25rem;
-      align-items: center;
-    }
+    footer a:hover { text-decoration: underline; }
 
-    .footer-right a {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
+    footer p + p { margin-top: 0.35rem; }
 
-    .footer-right a:hover {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 600px) {
-      nav {
-        padding: 0 1rem;
+    @media (max-width: 880px) {
+      .docs {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding-top: 2.5rem;
       }
 
-      section {
-        padding: 3.5rem 1.25rem;
+      .docs-nav {
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--line);
       }
 
-      .hero {
-        padding-top: 3.5rem;
+      .docs-nav-label { width: 100%; }
+
+      .docs-nav a {
+        border-left: 0;
+        border-bottom: 2px solid transparent;
+        padding: 0.3rem 0.55rem;
       }
 
-      footer {
-        padding: 2rem 1.25rem;
+      .docs-nav a:hover,
+      .docs-nav a.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--signal);
+      }
+
+      .stack-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        gap: 0;
+        padding: 0.5rem 1rem 1rem;
+        background: rgba(242, 245, 250, 0.97);
+        border-bottom: 1px solid var(--line);
       }
 
-      .dns-table {
-        font-size: 0.7rem;
+      .nav-links.open { display: flex; }
+
+      .nav-links a {
+        padding: 0.75rem 0.25rem;
+        border-bottom: 1px solid var(--line);
       }
 
-      .dns-table td+td,
-      .dns-table th+th {
-        padding-left: 1rem;
-      }
+      .nav-cta { justify-content: center; margin-top: 0.5rem; border: 0; }
 
-      .step {
-        grid-template-columns: 48px 1fr;
-      }
+      .hero { min-height: auto; }
+      .hero-content { padding-top: 3rem; }
     }
   </style>
 </head>
-
 <body>
+  <div class="atmosphere" aria-hidden="true"></div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="/" class="nav-brand">🚀 <span style="font-size:1.15rem; letter-spacing:-0.02em;">init</span></a>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#whats-included">What's included</a></li>
-      <li><a href="#how-it-works">How it works</a></li>
-      <li><a href="#cipi">Production</a></li>
-      <li><a href="https://github.com/andreapollastri/init.web.ap.it#readme" target="_blank">Docs</a></li>
-      <li>
-        <a href="https://github.com/andreapollastri/init.web.ap.it" target="_blank" class="nav-github">
-          ↗ GitHub
-        </a>
-      </li>
-    </ul>
-    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+  <nav class="nav">
+    <a class="nav-brand" href="/">🚀 init</a>
+    <div class="nav-links" id="nav-links">
+      <a href="#included">Stack</a>
+      <a href="#quick-start">Quick start</a>
+      <a href="#scripts">Scripts</a>
+      <a class="nav-cta" href="https://github.com/andreapollastri/init.web.ap.it" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <button class="hamburger" id="nav-hamburger" type="button" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
-  <script>
-    const hamburger = document.getElementById('nav-hamburger');
-    const navLinks = document.getElementById('nav-links');
+  <header class="hero">
+    <div class="hero-plane" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-brand">init<span>.</span></div>
+      <h1>Laravel &amp; Filament, ready in seconds.</h1>
+      <p>One command. Full local stack. Zero manual config — Docker, SSL, and a real subdomain on your Mac.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#install">Install init</a>
+        <a class="btn btn-ghost" href="https://github.com/andreapollastri/init.web.ap.it" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+    <div class="hero-terminal" aria-hidden="true">
+      <div class="hero-terminal-inner" id="hero-terminal"></div>
+    </div>
+  </header>
 
-    hamburger.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-    });
+  <div class="docs">
+    <aside class="docs-nav" aria-label="Documentation">
+      <div class="docs-nav-label">Documentation</div>
+      <a href="#install">Install</a>
+      <a href="#quick-start">Quick start</a>
+      <a href="#included">What's included</a>
+      <a href="#dns">127001.it</a>
+      <a href="#scripts">Helper scripts</a>
+      <a href="#production">Production</a>
+    </aside>
 
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
-    });
-  </script>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">Free &amp; Open Source</div>
-    <h1>Laravel &amp; Filament,<br /><em>ready in seconds.</em></h1>
-    <p>
-      One command. Full local stack. Zero manual config.<br />
-      A complete Laravel 13 + Filament environment, up and running on your Mac
-      before you finish your coffee.
-    </p>
-
-    <!-- Terminal animation -->
-    <div class="terminal" id="terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dots">
-          <span class="terminal-dot dot-red"></span>
-          <span class="terminal-dot dot-yellow"></span>
-          <span class="terminal-dot dot-green"></span>
+    <main class="docs-main">
+      <section id="install">
+        <h2>Install</h2>
+        <p class="lead">One line. No Homebrew, no global packages, no hosts file edits — the installer scaffolds everything into the current directory.</p>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy="curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh">Copy</button>
+          <pre><code>curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh</code></pre>
         </div>
-        <span class="terminal-label">zsh — Terminal</span>
-      </div>
-      <div class="terminal-body" id="terminalBody">
-        <div class="t-line">
-          <span class="t-prompt">$ </span>
-          <span class="t-cmd" id="typingCmd"></span><span class="t-cursor" id="typingCursor">|</span>
+        <div class="note">
+          <strong>Requirement:</strong> <a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a> on macOS must be running before you start.
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- Install command -->
-    <div class="install-wrap">
-      <div class="install-label">Quick install</div>
-      <div class="install-cmd" id="installCmd" role="button" tabindex="0" title="Click to copy">
-        <span class="prompt-symbol">$</span>
-        <span class="cmd-text">curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh</span>
-        <span class="copy-icon">⎘</span>
-      </div>
-      <div class="install-hint" id="installHint">Click to copy to clipboard</div>
-    </div>
-
-    <div>
-      <span class="requirements-note">
-        📋 Requires <strong><a href="https://www.docker.com/products/docker-desktop" target="_blank"
-            style="color: inherit; text-decoration: underline;">Docker Desktop</a></strong> on macOS
-      </span>
-    </div>
-  </section>
-
-  <!-- WHAT YOU GET -->
-  <section id="whats-included">
-    <div class="section-eyebrow">What's included</div>
-    <h2 class="section-title">Everything you need, already configured.</h2>
-    <p class="section-lead">
-      The initializer sets up a complete, production-parity local environment
-      so you can focus on building features — not tooling.
-    </p>
-
-    <div class="what-grid">
-      <div class="what-item">
-        <div class="what-icon">⚡</div>
-        <div class="what-name">Laravel 13</div>
-        <div class="what-desc">The latest Laravel framework, freshly installed and ready to go.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">🎨</div>
-        <div class="what-name">Filament 5</div>
-        <div class="what-desc">Admin panel and form builder — beautiful and fully operational.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">🐳</div>
-        <div class="what-name">Laravel Sail</div>
-        <div class="what-desc">Docker-based dev environment. Consistent across every machine.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">🗄️</div>
-        <div class="what-name">MySQL &amp; Redis</div>
-        <div class="what-desc">Database and cache preconfigured, no credentials to hunt down.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">📬</div>
-        <div class="what-name">Mailpit</div>
-        <div class="what-desc">Local email testing UI. Catch every outgoing email in dev.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">🪣</div>
-        <div class="what-name">MinIO</div>
-        <div class="what-desc">S3-compatible local storage. Test file uploads without AWS.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">🔒</div>
-        <div class="what-name">Local SSL</div>
-        <div class="what-desc">Trusted HTTPS certificate for your local dev domain. No warnings.</div>
-      </div>
-      <div class="what-item">
-        <div class="what-icon">🌐</div>
-        <div class="what-name">Real Subdomain</div>
-        <div class="what-desc">Your app gets a real <code style="font-size:0.75em">*.127001.it</code> subdomain — no
-          hosts file edits.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how-it-works">
-    <div class="section-eyebrow">How it works</div>
-    <h2 class="section-title">Three steps from zero to running.</h2>
-    <p class="section-lead">
-      No Homebrew packages, no global npm installs, no manual config files.
-      Just Docker Desktop and one command.
-    </p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <div class="step-title">Run the installer</div>
-          <div class="step-desc">
-            Paste the install command in your terminal. The script downloads
-            and runs itself — no global install needed.
-            <div class="step-code">curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh</div>
+      <section id="quick-start">
+        <h2>Quick start</h2>
+        <p class="lead">Three steps from an empty folder to a live local app.</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">01</div>
+            <div>
+              <h3>Run the installer</h3>
+              <p>Paste the install command. The script downloads itself and drives the full setup — no global install needed.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">02</div>
+            <div>
+              <h3>Name your project</h3>
+              <p>Choose a subdomain. That name becomes <code>your-name.127001.it</code> — nothing leaves your machine.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">03</div>
+            <div>
+              <h3>Open the browser</h3>
+              <p>The script prints app, panel, Mailpit, MinIO, MySQL, and Redis endpoints. Start building.</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <div class="step-title">Name your project</div>
-          <div class="step-desc">
-            The script will ask for a project name. That name becomes your
-            local subdomain — no hosts file edits, no config needed.
-            <div class="step-code">Project name: my-awesome-blog</div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <div class="step-title">Open your browser</div>
-          <div class="step-desc">
-            The script prints all your endpoints — app URL, admin panel,
-            Mailpit, MinIO, database credentials. Everything is ready.
-            <div class="step-code">→ https://my-awesome-blog.127001.it</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- 127001.it -->
-  <section>
-    <div class="section-eyebrow">Powered by 127001.it</div>
-    <h2 class="section-title">A real domain for your localhost.</h2>
-    <p class="section-lead">
-      init.web.ap.it uses <a href="https://127001.it" target="_blank">127001.it</a>
-      — a free wildcard DNS service — to give every project its own subdomain
-      that resolves to <code style="font-size:0.85em">127.0.0.1</code>.
-      No <code style="font-size:0.85em">/etc/hosts</code> edits. No sudo. No setup.
-    </p>
+      <section id="included">
+        <h2>What's included</h2>
+        <p class="lead">A production-parity local environment so you can focus on features — not tooling.</p>
+        <div class="stack-list">
+          <div class="stack-row"><strong>Laravel 13</strong><span>Application framework, freshly scaffolded</span></div>
+          <div class="stack-row"><strong>Filament 5</strong><span>Admin panel and form builder, ready to use</span></div>
+          <div class="stack-row"><strong>Laravel Sail</strong><span>Docker-based PHP, MySQL, Redis, and companions</span></div>
+          <div class="stack-row"><strong>MySQL &amp; Redis</strong><span>Database and cache preconfigured</span></div>
+          <div class="stack-row"><strong>Mailpit</strong><span>Local email testing UI</span></div>
+          <div class="stack-row"><strong>MinIO</strong><span>S3-compatible local object storage</span></div>
+          <div class="stack-row"><strong>Caddy + SSL</strong><span>Trusted local HTTPS with no browser warnings</span></div>
+          <div class="stack-row"><strong>*.127001.it</strong><span>Real subdomain — no <code>/etc/hosts</code> edits</span></div>
+          <div class="stack-row"><strong>Quality tooling</strong><span>Pint, PHPStan/Larastan, Boost, GitHub Actions CI</span></div>
+        </div>
+      </section>
 
-    <div class="dns-visual">
-      <table class="dns-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="dns-record-type">A</td>
-            <td class="dns-record-name">*.127001.it</td>
-            <td class="dns-record-value">127.0.0.1</td>
-            <td class="dns-record-comment">; wildcard — every subdomain</td>
-          </tr>
-        </tbody>
-      </table>
+      <section id="dns">
+        <h2>Powered by 127001.it</h2>
+        <p class="lead">Every project gets a real subdomain under <code>*.127001.it</code> — free wildcard DNS that resolves to <code>127.0.0.1</code>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>A</code></td>
+                <td><code>*.127001.it</code></td>
+                <td><code>127.0.0.1</code></td>
+                <td>Wildcard — all subdomains resolve locally</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Zero setup. No accounts. Infinite subdomains. Always free. Learn more at <a href="https://127001.it" target="_blank" rel="noopener">127001.it</a>.</p>
+      </section>
 
-      <div class="dns-examples">
-        <div class="dns-example">
-          <span class="dns-example-url">https://my-blog.127001.it</span>
-          <span class="dns-arrow">→</span>
-          <span class="dns-example-result">resolves to 127.0.0.1 · your local app</span>
+      <section id="scripts">
+        <h2>Helper scripts</h2>
+        <p class="lead">Every generated project ships with a <code>bin/</code> directory of day-to-day helpers.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Script</th>
+                <th>Command</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Setup</td><td><code>sh bin/setup.sh</code></td><td>First-run install (skip if you used the initializer)</td></tr>
+              <tr><td>Start</td><td><code>sh bin/start.sh</code></td><td>Start all Docker containers</td></tr>
+              <tr><td>Stop</td><td><code>sh bin/stop.sh</code></td><td>Stop all Docker containers</td></tr>
+              <tr><td>Test</td><td><code>sh bin/test.sh</code></td><td>Run the test suite via PHPUnit</td></tr>
+              <tr><td>Lint</td><td><code>sh bin/pint.sh</code></td><td>Fix code style with Laravel Pint</td></tr>
+              <tr><td>Analyse</td><td><code>sh bin/stan.sh</code></td><td>Static analysis with PHPStan / Larastan</td></tr>
+              <tr><td>Jobs</td><td><code>sh bin/jobs.sh</code></td><td>Start the queue worker</td></tr>
+              <tr><td>Cache</td><td><code>sh bin/cache.sh</code></td><td>Clear application caches</td></tr>
+              <tr><td>DB Refresh</td><td><code>sh bin/fresh.sh</code></td><td>Drop, migrate, and re-seed</td></tr>
+              <tr><td>Bash</td><td><code>sh bin/bash.sh</code></td><td>Shell inside the app container</td></tr>
+            </tbody>
+          </table>
         </div>
-        <div class="dns-example">
-          <span class="dns-example-url">https://company-crm.127001.it</span>
-          <span class="dns-arrow">→</span>
-          <span class="dns-example-result">resolves to 127.0.0.1 · your local app</span>
-        </div>
-        <div class="dns-example">
-          <span class="dns-example-url">https://saas-app.127001.it</span>
-          <span class="dns-arrow">→</span>
-          <span class="dns-example-result">resolves to 127.0.0.1 · your local app</span>
-        </div>
-      </div>
-    </div>
+      </section>
 
-    <div class="dns-link-box">
-      <div class="dns-link-box-icon">🌐</div>
-      <div class="dns-link-box-text">
-        <strong>127001.it — Free Wildcard DNS for Local Development</strong><br />
-        Zero setup. No accounts. Infinite subdomains. Always free. Every
-        subdomain under <code style="font-size:0.85em">*.127001.it</code> resolves to your machine.
-      </div>
-      <a href="https://127001.it" target="_blank" class="dns-link-box-cta">
-        Learn more ↗
-      </a>
-    </div>
-  </section>
+      <section id="production">
+        <h2>Take it to production</h2>
+        <p class="lead">Once the app is ready locally, deploy Laravel to any Ubuntu VPS with <a href="https://cipi.sh" target="_blank" rel="noopener">cipi.sh</a> — PHP-FPM, MariaDB, Nginx, Let's Encrypt, zero-downtime releases.</p>
+        <div class="code-block">
+          <button class="copy" type="button" data-copy="wget -O - https://cipi.sh/setup.sh | bash">Copy</button>
+          <pre><code>wget -O - https://cipi.sh/setup.sh | bash</code></pre>
+        </div>
+        <ul>
+          <li>Full app isolation — own Linux user, PHP-FPM pool &amp; database per app</li>
+          <li>Zero-downtime deploys with instant rollback via Deployer</li>
+          <li>Let's Encrypt SSL, Fail2ban, UFW — automated</li>
+          <li>Multi-PHP, queue workers, S3 backups, auto-deploy webhooks</li>
+          <li>AI agent ready — built-in MCP server for Cursor, VS Code, Claude Desktop</li>
+        </ul>
+        <div class="pair">
+          <h2>Deploy with Cipi</h2>
+          <p>Local with init. Production with cipi.sh — the same Laravel workflow, end to end.</p>
+          <a class="btn" href="https://cipi.sh" target="_blank" rel="noopener">Explore cipi.sh →</a>
+        </div>
+      </section>
+    </main>
+  </div>
 
-  <!-- CIPI -->
-  <section id="cipi" class="cipi-section">
-    <div class="cipi-header">
-      <div class="section-eyebrow">Take it to production</div>
-      <h2 class="section-title">Deploy Laravel to any VPS.<br />Without the DevOps headache.</h2>
-      <p class="section-lead">
-        Once your app is ready locally, deploy it to production with
-        <a href="https://cipi.sh" target="_blank"><strong>cipi.sh</strong></a> —
-        an open-source CLI built exclusively for Laravel. One command installs
-        a complete production stack on any Ubuntu VPS.
-      </p>
-    </div>
-
-    <div class="cipi-features">
-      <div class="cipi-feature">
-        <span class="cipi-feature-icon">🔐</span>
-        <div class="cipi-feature-text">
-          <strong>Full app isolation</strong>
-          Own Linux user, PHP-FPM pool &amp; database per application.
-        </div>
-      </div>
-      <div class="cipi-feature">
-        <span class="cipi-feature-icon">🚀</span>
-        <div class="cipi-feature-text">
-          <strong>Zero-downtime deploys</strong>
-          Instant rollback via Deployer. Ship with confidence.
-        </div>
-      </div>
-      <div class="cipi-feature">
-        <span class="cipi-feature-icon">🛡️</span>
-        <div class="cipi-feature-text">
-          <strong>Security out of the box</strong>
-          Let's Encrypt SSL, Fail2ban, UFW firewall — all automated.
-        </div>
-      </div>
-      <div class="cipi-feature">
-        <span class="cipi-feature-icon">🐘</span>
-        <div class="cipi-feature-text">
-          <strong>Multi-PHP support</strong>
-          PHP 7.4 → 8.5. Queue workers, S3 backups, webhooks included.
-        </div>
-      </div>
-      <div class="cipi-feature">
-        <span class="cipi-feature-icon">🤖</span>
-        <div class="cipi-feature-text">
-          <strong>AI Agent ready</strong>
-          Works with Cursor, VS Code, Claude Desktop — MCP server included.
-        </div>
-      </div>
-      <div class="cipi-feature">
-        <span class="cipi-feature-icon">🪙</span>
-        <div class="cipi-feature-text">
-          <strong>MIT · Open Source</strong>
-          Free forever. No vendor lock-in. Runs on any Ubuntu 24.04+ VPS.
-        </div>
-      </div>
-    </div>
-
-    <div class="terminal cipi-terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dots">
-          <span class="terminal-dot dot-red"></span>
-          <span class="terminal-dot dot-yellow"></span>
-          <span class="terminal-dot dot-green"></span>
-        </div>
-        <span class="terminal-label">ubuntu@vps — Cipi</span>
-      </div>
-      <div class="terminal-body" style="min-height: 220px;">
-        <div class="t-line">
-          <span class="t-prompt">$ </span>
-          <span class="t-cmd">wget -O -
-            https://cipi.sh/setup.sh | bash</span>
-        </div>
-        <div class="t-line"><span class="t-success">✓</span> <span style="color:#9ca3af;">Cipi v4.0.0 installed
-            successfully</span></div>
-        <div class="t-line">&nbsp;</div>
-        <div class="t-line">
-          <span class="t-prompt">$ </span>
-          <span class="t-cmd">cipi app create --domain=myapp.com --php=8.4</span>
-        </div>
-        <div class="t-line"><span class="t-success">✓</span> <span style="color:#9ca3af;">Linux user created</span>
-        </div>
-        <div class="t-line"><span class="t-success">✓</span> <span style="color:#9ca3af;">PHP 8.4 FPM pool
-            configured</span></div>
-        <div class="t-line"><span class="t-success">✓</span> <span style="color:#9ca3af;">MariaDB database
-            provisioned</span></div>
-        <div class="t-line"><span class="t-success">✓</span> <span style="color:#9ca3af;">Nginx virtual host
-            ready</span></div>
-        <div class="t-line">&nbsp;</div>
-        <div class="t-line">
-          <span class="t-prompt">$ </span>
-          <span class="t-cmd">cipi deploy myapp</span>
-        </div>
-        <div class="t-line"><span class="t-success">✓</span> <span style="color:#9ca3af;">Release 14 live — zero
-            downtime</span></div>
-        <div class="t-line">&nbsp;</div>
-        <div class="t-line"><span class="t-info">→</span> <span class="t-url">myapp.com is live.</span> 🚀</div>
-      </div>
-    </div>
-
-    <a href="https://cipi.sh" target="_blank" class="cipi-cta">
-      Explore cipi.sh ↗
-    </a>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <div class="footer-left">
-      Open source · MIT ·
-      <a href="https://github.com/andreapollastri/init.web.ap.it" target="_blank">GitHub</a>
-    </div>
-    <div class="footer-right">
-      <a href="https://web.ap.it" target="_blank">Made by @ndrea</a>
-    </div>
+    <p>Open source · MIT · <a href="https://github.com/andreapollastri/init.web.ap.it" target="_blank" rel="noopener">GitHub</a></p>
+    <p>Made by <a href="https://web.ap.it" target="_blank" rel="noopener">Andrea Pollastri</a></p>
   </footer>
 
+  <script>
+    (function () {
+      const hamburger = document.getElementById("nav-hamburger");
+      const navLinks = document.getElementById("nav-links");
+      hamburger.addEventListener("click", () => {
+        const open = navLinks.classList.toggle("open");
+        hamburger.classList.toggle("open", open);
+        hamburger.setAttribute("aria-expanded", open);
+      });
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          hamburger.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      document.querySelectorAll(".copy").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const text = btn.getAttribute("data-copy") || "";
+          try {
+            await navigator.clipboard.writeText(text);
+            btn.textContent = "Copied";
+            btn.classList.add("copied");
+            setTimeout(() => {
+              btn.textContent = "Copy";
+              btn.classList.remove("copied");
+            }, 1600);
+          } catch (_) {
+            btn.textContent = "Failed";
+            setTimeout(() => { btn.textContent = "Copy"; }, 1600);
+          }
+        });
+      });
+
+      const sections = [...document.querySelectorAll(".docs-main section[id]")];
+      const tocLinks = [...document.querySelectorAll(".docs-nav a")];
+      const setActive = () => {
+        const y = window.scrollY + 120;
+        let current = sections[0]?.id;
+        for (const s of sections) {
+          if (s.offsetTop <= y) current = s.id;
+        }
+        tocLinks.forEach((a) => {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+        });
+      };
+      window.addEventListener("scroll", setActive, { passive: true });
+      setActive();
+
+      const INSTALL = "curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh";
+      const projects = [
+        { slug: "my-awesome-blog", mysql: 33061, redis: 63791, db: "blog_db" },
+        { slug: "company-crm", mysql: 33062, redis: 63792, db: "crm_db" },
+        { slug: "saas-platform", mysql: 33063, redis: 63793, db: "saas_db" },
+      ];
+      const el = document.getElementById("hero-terminal");
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      async function run() {
+        const p = projects[Math.floor(Math.random() * projects.length)];
+        el.innerHTML = `<span class="prompt">$</span> <span id="typed"></span><span class="caret"></span>`;
+        const typed = document.getElementById("typed");
+        for (let i = 0; i <= INSTALL.length; i++) {
+          typed.textContent = INSTALL.slice(0, i);
+          await sleep(28);
+        }
+        await sleep(500);
+        el.innerHTML =
+          `<span class="dim">?</span> Project name: <span class="info">${p.slug}</span>\n` +
+          `<span class="dim">…</span> scaffolding Laravel 13 + Filament 5\n` +
+          `<span class="ok">✓</span> containers up · SSL trusted\n` +
+          `<span class="warn">▸</span> APP   <span class="url">https://${p.slug}.127001.it</span>\n` +
+          `<span class="warn">▸</span> PANEL <span class="url">https://${p.slug}.127001.it/panel</span>\n` +
+          `<span class="prompt">$</span> <span class="caret"></span>`;
+        el.style.whiteSpace = "pre-wrap";
+        await sleep(5200);
+        run();
+      }
+      setTimeout(run, 600);
+    })();
+  </script>
+  <script async src="https://stats.web.ap.it/i/d21644ed-05b4-407c-a329-cd098faa6b7c.js"></script>
+  <noscript><img src="https://stats.web.ap.it/collect/pixel.gif?k=d21644ed-05b4-407c-a329-cd098faa6b7c&p=/" width="1" height="1" alt="" /></noscript>
 </body>
-
-<script>
-  // ─── Copy install command ───
-  const installCmd = document.getElementById("installCmd");
-  const installHint = document.getElementById("installHint");
-  const CMD = "curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh";
-
-  installCmd.addEventListener("click", () => {
-    navigator.clipboard.writeText(CMD).then(() => {
-      installHint.textContent = "✓ Copied to clipboard!";
-      installHint.classList.add("success");
-      setTimeout(() => {
-        installHint.textContent = "Click to copy to clipboard";
-        installHint.classList.remove("success");
-      }, 2500);
-    }).catch(() => {
-      installHint.textContent = "Could not copy — please copy manually.";
-      setTimeout(() => { installHint.textContent = "Click to copy to clipboard"; }, 2500);
-    });
-  });
-
-  installCmd.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") installCmd.click();
-  });
-
-  // ─── Terminal animation ───
-  const terminalBody = document.getElementById("terminalBody");
-  const INSTALL_CMD = "curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh";
-
-  const PROJECTS = [
-    {
-      slug: "my-awesome-blog",
-      db: "blog_db",
-      mysqlPort: 33061,
-      redisPort: 63791,
-    },
-    {
-      slug: "company-crm",
-      db: "crm_db",
-      mysqlPort: 33062,
-      redisPort: 63792,
-    },
-    {
-      slug: "saas-platform",
-      db: "saas_db",
-      mysqlPort: 33063,
-      redisPort: 63793,
-    },
-  ];
-
-  const STEPS = [
-    { label: "Downloading installer", ms: 1200 },
-    { label: "Setting up Laravel 13", ms: 2000 },
-    { label: "Installing Filament 5", ms: 1800 },
-    { label: "Configuring packages", ms: 1400 },
-    { label: "Starting Docker containers", ms: 2200 },
-    { label: "Generating SSL certificate", ms: 1600 },
-  ];
-
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-  function clearBody() {
-    terminalBody.innerHTML = "";
-    terminalBody.className = "terminal-body";
-  }
-
-  function addLine(html, extraClass = "") {
-    const d = document.createElement("div");
-    d.className = `t-line ${extraClass}`;
-    d.innerHTML = html;
-    terminalBody.appendChild(d);
-  }
-
-  async function showProgress(label, duration) {
-    clearBody();
-    terminalBody.style.justifyContent = "center";
-    terminalBody.style.alignItems = "center";
-    terminalBody.style.textAlign = "center";
-
-    const wrap = document.createElement("div");
-    wrap.className = "t-progress-wrap";
-    wrap.innerHTML = `
-        <div class="t-progress-label">${label}…</div>
-        <div class="t-progress-track">
-          <div class="t-progress-fill" style="width:0%"></div>
-        </div>
-      `;
-    terminalBody.appendChild(wrap);
-
-    const fill = wrap.querySelector(".t-progress-fill");
-    const steps = 30;
-    const stepMs = duration / steps;
-    for (let i = 1; i <= steps; i++) {
-      fill.style.width = `${(i / steps) * 100}%`;
-      await sleep(stepMs);
-    }
-    terminalBody.style.justifyContent = "";
-    terminalBody.style.alignItems = "";
-    terminalBody.style.textAlign = "";
-  }
-
-  async function runAnimation() {
-    const project = PROJECTS[Math.floor(Math.random() * PROJECTS.length)];
-
-    // 1. Type command
-    clearBody();
-    addLine(`<span class="t-prompt">$ </span><span class="t-cmd" id="tc"></span><span class="t-cursor" id="tcu">|</span>`);
-    const tc = document.getElementById("tc");
-    const tcu = document.getElementById("tcu");
-    for (let i = 0; i <= INSTALL_CMD.length; i++) {
-      tc.textContent = INSTALL_CMD.slice(0, i);
-      await sleep(55);
-    }
-    tcu.style.display = "none";
-    await sleep(600);
-
-    // 2. Project name prompt
-    clearBody();
-    addLine(`<span class="t-info">?</span> <span style="color:#e5e7eb">Project name:</span> <span class="t-cmd">${project.slug}</span>`);
-    await sleep(1000);
-
-    // 3. Progress steps
-    for (const step of STEPS) {
-      await showProgress(step.label, step.ms);
-      await sleep(200);
-    }
-
-    // 4. Success
-    clearBody();
-    addLine(`<span class="t-success">🍺 Your project is ready!</span>`);
-    addLine(`<span class="t-warn">▸ PROJECT ENDPOINTS</span>`);
-    addLine(``);
-    addLine(`<span class="t-info">APP   </span>  <span class="t-url">https://${project.slug}.127001.it</span>`);
-    addLine(`<span class="t-info">PANEL </span>  <span class="t-url">https://${project.slug}.127001.it/admin</span>`);
-    addLine(`<span class="t-info">MAIL  </span>  <span class="t-url">https://${project.slug}.127001.it:8025</span>`);
-    addLine(`<span class="t-info">MINIO </span>  <span class="t-url">https://${project.slug}.127001.it:9001</span>`);
-    addLine(`<span class="t-info">MYSQL </span>  <span class="t-url">mysql://127001:password@127.0.0.1:${project.mysqlPort}/${project.db}</span>`);
-    addLine(`<span class="t-info">REDIS </span>  <span class="t-url">redis://127.0.0.1:${project.redisPort}</span>`);
-
-    await sleep(6000);
-    runAnimation();
-  }
-
-  setTimeout(runAnimation, 800);
-</script>
-<script async src="https://stats.web.ap.it/i/d21644ed-05b4-407c-a329-cd098faa6b7c.js"></script>
-<noscript><img src="https://stats.web.ap.it/collect/pixel.gif?k=d21644ed-05b4-407c-a329-cd098faa6b7c&p=/" width="1"
-    height="1" /></noscript>
-
 </html>

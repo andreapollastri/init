@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# curl https://init.web.ap.it/go.sh > go.sh && sh go.sh
+# curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh
 
 PHP_VERSION_ATTR=php84
 PHP_VERSION=8.4
