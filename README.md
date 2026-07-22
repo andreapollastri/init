@@ -124,7 +124,7 @@ wget -O - https://cipi.sh/setup.sh | bash
 
 ## Contributing
 
-Thank you for considering contributing! Feel free to open Pull Requests or Issues on [GitHub](https://github.com/andreapollastri/init.web.ap.it).
+Thank you for considering contributing! Feel free to open Pull Requests or Issues on [GitHub](https://github.com/andreapollastri/init).
 
 ## License
 
