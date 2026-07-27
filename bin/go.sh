@@ -15,7 +15,7 @@ ENDPOINT=https://init.web.ap.it
 # (stable, beta, dev, etc...)
 COMPOSER_MINIMUM_STABILITY=stable
 
-TOTAL_STEPS=22
+TOTAL_STEPS=23
 CURRENT_STEP=0
 
 save_cursor() {
@@ -404,6 +404,32 @@ unlink root.crt
 
 
 ########################### STEP #################################
+show_progress "Initializing Git repository"
+
+if ! command -v git > /dev/null 2>&1; then
+    git_line="not initialized (git not found)"
+    echo "⚠️  Git not found: skipping repository initialization."
+elif git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    git_line="not initialized (already inside a repository)"
+    echo "⚠️  Existing Git repository detected: skipping initialization."
+else
+    git init -b main > /dev/null 2>&1 || { git init > /dev/null; git symbolic-ref HEAD refs/heads/main; }
+    git add -A -- . ':(exclude)go.sh'
+
+    if [ -z "$(git config user.name)" ] || [ -z "$(git config user.email)" ]; then
+        git -c user.name="init" -c user.email="init@localhost" commit -q -m "Initial commit"
+    else
+        git commit -q -m "Initial commit"
+    fi
+
+    git_line="repository initialized on main (git remote add origin <url>)"
+fi
+
+
+
+
+
+########################### STEP #################################
 show_progress "Installation completed successfully!"
 
 clear
@@ -418,6 +444,7 @@ printf "\033[1;36mMAILPIT:\033[0m \033[1;37m%s\033[0m\n" "$mailpit_line"
 printf "\033[1;36mMINIO:\033[0m   \033[1;37m%s\033[0m\n" "$minio_line"
 printf "\033[1;36mMYSQL:\033[0m   \033[1;37m%s\033[0m\n" "$mysql_line"
 printf "\033[1;36mREDIS:\033[0m   \033[1;37m%s\033[0m\n" "$redis_line"
+printf "\033[1;36mGIT:\033[0m     \033[1;37m%s\033[0m\n" "$git_line"
 echo ""
 
 unlink go.sh

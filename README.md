@@ -58,6 +58,7 @@ The installer will:
 10. Install additional packages (S3, PHPStan, Larapilot + Boost with `/larapilot-*` skills)
 11. Adjust file permissions
 12. Install and trust the local SSL certificate
+13. Initialize a Git repository on `main` with an initial commit
 
 Once done, it prints all your endpoints:
 
@@ -68,6 +69,7 @@ MAIL   http://my-app.127001.it:<mailpit-port>
 MINIO  http://my-app.127001.it:<minio-port>  (sail / password)
 MYSQL  mysql://sail:password@my-app.127001.it:<db-port>/my_app_db
 REDIS  redis://default@my-app.127001.it:<redis-port>
+GIT    repository initialized on main (git remote add origin <url>)
 ```
 
 ---
