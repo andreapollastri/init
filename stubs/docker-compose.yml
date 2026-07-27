@@ -35,11 +35,11 @@ services:
         networks:
             - sail
         depends_on:
-            - mysql
-            - redis
+            - mariadb
+            - valkey
             - mailpit
-    mysql:
-        image: 'mysql/mysql-server:MYSQLV'
+    mariadb:
+        image: 'mariadb:MARIADBV'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -48,32 +48,32 @@ services:
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'sail-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+            - 'sail-mariadb:/var/lib/mysql'
+            - './vendor/laravel/sail/database/mariadb/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
             - sail
         healthcheck:
             test:
                 - CMD
-                - mysqladmin
-                - ping
-                - '-p${DB_PASSWORD}'
+                - healthcheck.sh
+                - '--connect'
+                - '--innodb_initialized'
             retries: 3
             timeout: 5s
-    redis:
-        image: 'redis:alpine'
+    valkey:
+        image: 'valkey/valkey:alpine'
         ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
+            - '${FORWARD_VALKEY_PORT:-6379}:6379'
         volumes:
-            - 'sail-redis:/data'
+            - 'sail-valkey:/data'
         networks:
             - sail
         healthcheck:
             test:
                 - CMD
-                - redis-cli
+                - valkey-cli
                 - ping
             retries: 3
             timeout: 5s
@@ -126,9 +126,9 @@ networks:
     sail:
         driver: bridge
 volumes:
-    sail-mysql:
+    sail-mariadb:
         driver: local
-    sail-redis:
+    sail-valkey:
         driver: local
     caddy_data:
         driver: local

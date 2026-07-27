@@ -13,12 +13,13 @@
 | Laravel            | 13      | Application framework        |
 | Filament           | 5       | Admin panel & form builder   |
 | Laravel Sail       | latest  | Docker-based dev environment |
-| MySQL              | 8       | Relational database          |
-| Redis              | latest  | Cache & queue backend        |
+| MariaDB            | 11      | Relational database          |
+| Valkey             | latest  | Cache & queue backend        |
 | Mailpit            | latest  | Local email testing UI       |
 | MinIO              | latest  | S3-compatible local storage  |
 | Caddy              | latest  | Reverse proxy with local SSL |
 | PHPStan / Larastan | latest  | Static analysis              |
+| Checkpoint         | latest  | Security scanner             |
 | Laravel Pint       | latest  | Code style fixer             |
 | Laravel Boost      | latest  | AI guidelines, skills, MCP      |
 | Larapilot          | latest  | Spec-driven AI product workflow |
@@ -55,7 +56,7 @@ The installer will:
 7. Start all Docker containers via Sail
 8. Run database migrations and seeders
 9. Install Filament and configure the admin panel
-10. Install additional packages (S3, PHPStan, Larapilot + Boost with `/larapilot-*` skills)
+10. Install additional packages (S3, PHPStan, Checkpoint, Larapilot + Boost with `/larapilot-*` skills)
 11. Adjust file permissions
 12. Install and trust the local SSL certificate
 13. Initialize a Git repository on `main` with an initial commit
@@ -67,8 +68,8 @@ APP    https://my-app.127001.it
 PANEL  https://my-app.127001.it/panel  (test@example.com / password)
 MAIL   http://my-app.127001.it:<mailpit-port>
 MINIO  http://my-app.127001.it:<minio-port>  (sail / password)
-MYSQL  mysql://sail:password@my-app.127001.it:<db-port>/my_app_db
-REDIS  redis://default@my-app.127001.it:<redis-port>
+MARIADB  mysql://sail:password@my-app.127001.it:<db-port>/my_app_db
+VALKEY   redis://default@my-app.127001.it:<valkey-port>
 GIT    repository initialized on main (git remote add origin <url>)
 ```
 
@@ -86,6 +87,7 @@ Every generated project ships with a `bin/` directory of helper scripts:
 | Test       | `sh bin/test.sh`  | Run the test suite via PHPUnit                      |
 | Lint       | `sh bin/pint.sh`  | Fix code style with Laravel Pint                    |
 | Analyse    | `sh bin/stan.sh`  | Run static analysis with PHPStan/Larastan           |
+| Scan       | `sh bin/scan.sh`  | Run the Checkpoint security scan                    |
 | Jobs       | `sh bin/jobs.sh`  | Start the queue worker                              |
 | Cache      | `sh bin/cache.sh` | Clear all application caches                        |
 | DB Refresh | `sh bin/fresh.sh` | Drop, migrate, and re-seed the database             |

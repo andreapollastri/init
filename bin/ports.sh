@@ -26,7 +26,7 @@ find_available_port() {
 SSL_PORT=$(find_available_port $START_PORT $((START_PORT + 1000)))
 APP_PORT=$(find_available_port $((START_PORT + 1001)) $((START_PORT + 2000)))
 FORWARD_DB_PORT=$(find_available_port $((START_PORT + 2001)) $((START_PORT + 3000)))
-FORWARD_REDIS_PORT=$(find_available_port $((START_PORT + 3001)) $((START_PORT + 4000)))
+FORWARD_VALKEY_PORT=$(find_available_port $((START_PORT + 3001)) $((START_PORT + 4000)))
 FORWARD_MAILPIT_PORT=$(find_available_port $((START_PORT + 4001)) $((START_PORT + 5000)))
 FORWARD_MAILPIT_DASHBOARD_PORT=$(find_available_port $((START_PORT + 5001)) $((START_PORT + 6000)))
 VITE_PORT=$(find_available_port $((START_PORT + 6001)) $((START_PORT + 7000)))
@@ -36,7 +36,7 @@ FORWARD_MINIO_CONSOLE_PORT=$(find_available_port $((START_PORT + 8001)) $((START
 sed -i '' "s/^SSL_PORT=.*/SSL_PORT=$SSL_PORT/" .env.example
 sed -i '' "s/^APP_PORT=.*/APP_PORT=$APP_PORT/" .env.example
 sed -i '' "s/^FORWARD_DB_PORT=.*/FORWARD_DB_PORT=$FORWARD_DB_PORT/" .env.example
-sed -i '' "s/^FORWARD_REDIS_PORT=.*/FORWARD_REDIS_PORT=$FORWARD_REDIS_PORT/" .env.example
+sed -i '' "s/^FORWARD_VALKEY_PORT=.*/FORWARD_VALKEY_PORT=$FORWARD_VALKEY_PORT/" .env.example
 sed -i '' "s/^FORWARD_MAILPIT_PORT=.*/FORWARD_MAILPIT_PORT=$FORWARD_MAILPIT_PORT/" .env.example
 sed -i '' "s/^FORWARD_MAILPIT_DASHBOARD_PORT=.*/FORWARD_MAILPIT_DASHBOARD_PORT=$FORWARD_MAILPIT_DASHBOARD_PORT/" .env.example
 sed -i '' "s/^VITE_PORT=.*/VITE_PORT=$VITE_PORT/" .env.example

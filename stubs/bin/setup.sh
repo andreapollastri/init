@@ -26,7 +26,7 @@ docker run --rm \
 
 ./vendor/bin/sail bash -c "php artisan storage:link"
 
-echo "Waiting for MySQL..."
+echo "Waiting for MariaDB..."
 sleep 30
 
 ./vendor/bin/sail bash -c "php artisan migrate --seed"

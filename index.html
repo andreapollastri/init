@@ -759,7 +759,7 @@
             <div class="step-n">03</div>
             <div>
               <h3>Open the browser</h3>
-              <p>The script prints app, panel, Mailpit, MinIO, MySQL, and Redis endpoints. Start building.</p>
+              <p>The script prints app, panel, Mailpit, MinIO, MariaDB, and Valkey endpoints. Start building.</p>
             </div>
           </div>
         </div>
@@ -771,13 +771,13 @@
         <div class="stack-list">
           <div class="stack-row"><strong>Laravel 13</strong><span>Application framework, freshly scaffolded</span></div>
           <div class="stack-row"><strong>Filament 5</strong><span>Admin panel and form builder, ready to use</span></div>
-          <div class="stack-row"><strong>Laravel Sail</strong><span>Docker-based PHP, MySQL, Redis, and companions</span></div>
-          <div class="stack-row"><strong>MySQL &amp; Redis</strong><span>Database and cache preconfigured</span></div>
+          <div class="stack-row"><strong>Laravel Sail</strong><span>Docker-based PHP, MariaDB, Valkey, and companions</span></div>
+          <div class="stack-row"><strong>MariaDB &amp; Valkey</strong><span>Database and cache preconfigured</span></div>
           <div class="stack-row"><strong>Mailpit</strong><span>Local email testing UI</span></div>
           <div class="stack-row"><strong>MinIO</strong><span>S3-compatible local object storage</span></div>
           <div class="stack-row"><strong>Caddy + SSL</strong><span>Trusted local HTTPS with no browser warnings</span></div>
           <div class="stack-row"><strong>*.127001.it</strong><span>Real subdomain — no <code>/etc/hosts</code> edits</span></div>
-          <div class="stack-row"><strong>Quality tooling</strong><span>Pint, PHPStan/Larastan, Boost, GitHub Actions CI</span></div>
+          <div class="stack-row"><strong>Quality tooling</strong><span>Pint, PHPStan/Larastan, Checkpoint, Boost, GitHub Actions CI</span></div>
           <div class="stack-row"><strong>Larapilot</strong><span>Spec-driven AI workflow — Boost skills published automatically</span></div>
         </div>
       </section>
@@ -916,9 +916,9 @@
 
       const INSTALL = "curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh";
       const projects = [
-        { slug: "my-awesome-blog", mysql: 33061, redis: 63791, db: "blog_db" },
-        { slug: "company-crm", mysql: 33062, redis: 63792, db: "crm_db" },
-        { slug: "saas-platform", mysql: 33063, redis: 63793, db: "saas_db" },
+        { slug: "my-awesome-blog", mariadb: 33061, valkey: 63791, db: "blog_db" },
+        { slug: "company-crm", mariadb: 33062, valkey: 63792, db: "crm_db" },
+        { slug: "saas-platform", mariadb: 33063, valkey: 63793, db: "saas_db" },
       ];
       const el = document.getElementById("hero-terminal");
       const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

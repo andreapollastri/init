@@ -4,8 +4,7 @@
 
 PHP_VERSION_ATTR=php84
 PHP_VERSION=8.4
-MYSQL_VERSION_ATTR=latest
-MYSQL_VERSION=8
+MARIADB_VERSION=11
 FILAMENT_VERSION=5.0
 LARAVEL_VERSION=13
 DOMAIN=127001.it
@@ -113,6 +112,7 @@ curl -s $ENDPOINT/stubs/bin/cache.sh > bin/cache.sh
 curl -s $ENDPOINT/stubs/bin/jobs.sh > bin/jobs.sh
 curl -s $ENDPOINT/stubs/bin/test.sh > bin/test.sh
 curl -s $ENDPOINT/stubs/bin/stan.sh > bin/stan.sh
+curl -s $ENDPOINT/stubs/bin/scan.sh > bin/scan.sh
 sed -i '' "s/PHPV/$PHP_VERSION_ATTR/" bin/setup.sh
 
 
@@ -223,7 +223,7 @@ curl -s $ENDPOINT/stubs/.devcontainer/.devcontainer.json > .devcontainer/.devcon
 
 curl -s $ENDPOINT/stubs/docker-compose.yml > docker-compose.yml
 sed -i '' "s/PHPV/$PHP_VERSION/" docker-compose.yml
-sed -i '' "s/MYSQLV/$MYSQL_VERSION_ATTR/" docker-compose.yml
+sed -i '' "s/MARIADBV/$MARIADB_VERSION/" docker-compose.yml
 
 curl -s $ENDPOINT/stubs/Caddyfile > Caddyfile
 
@@ -241,7 +241,7 @@ mkdir .github
 mkdir .github/workflows
 curl -s $ENDPOINT/stubs/.github/workflows/laravel.yml > .github/workflows/laravel.yml
 sed -i '' "s/PHPV/$PHP_VERSION/" .github/workflows/laravel.yml
-sed -i '' "s/MYSQLV/$MYSQL_VERSION/" .github/workflows/laravel.yml
+sed -i '' "s/MARIADBV/$MARIADB_VERSION/" .github/workflows/laravel.yml
 
 
 
@@ -270,7 +270,7 @@ show_progress "Starting Docker containers"
 ########################### STEP #################################
 show_progress "Initializing database"
 
-echo "Waiting for MySQL..."
+echo "Waiting for MariaDB..."
 sleep 30
 
 ./vendor/bin/sail bash -c "php artisan migrate --seed"
@@ -308,6 +308,8 @@ show_progress "Installing development tools"
 
 ./vendor/bin/sail bash -c "composer require --dev larastan/larastan"
 echo '/phpstan.neon' >> .gitignore
+
+./vendor/bin/sail bash -c "composer require --dev andreapollastri/checkpoint"
 
 
 
@@ -366,15 +368,15 @@ url_line="$APP_URL (HTTP AVAILABLE ON PORT: $APP_PORT)"
 panel_line="$APP_URL/panel (test@example.com / password)"
 mailpit_line="http://$HOST:$FORWARD_MAILPIT_DASHBOARD_PORT"
 minio_line="http://$HOST:$FORWARD_MINIO_CONSOLE_PORT"
-mysql_line="mysql://$DB_USERNAME:$DB_PASSWORD@$HOST:$FORWARD_DB_PORT/$DB_DATABASE"
-redis_line="redis://default@$HOST:$FORWARD_REDIS_PORT"
+mariadb_line="mysql://$DB_USERNAME:$DB_PASSWORD@$HOST:$FORWARD_DB_PORT/$DB_DATABASE"
+valkey_line="redis://default@$HOST:$FORWARD_VALKEY_PORT"
 
 sed -i '' "s|initUrl|$APP_URL|" README.md
 sed -i '' "s|initHost|$HOST|" README.md
 sed -i '' "s|initMailpit|$mailpit_line|" README.md
 sed -i '' "s|initMinio|$minio_line|" README.md
-sed -i '' "s|initMysql|$mysql_line|" README.md
-sed -i '' "s|initRedis|$redis_line|" README.md
+sed -i '' "s|initMariadb|$mariadb_line|" README.md
+sed -i '' "s|initValkey|$valkey_line|" README.md
 
 ########################### STEP #################################
 show_progress "Adjusting file permissions"
@@ -442,8 +444,8 @@ printf "\033[1;36mURL:\033[0m     \033[1;37m%s\033[0m\n" "$url_line"
 printf "\033[1;36mPANEL:\033[0m   \033[1;37m%s\033[0m\n" "$panel_line"
 printf "\033[1;36mMAILPIT:\033[0m \033[1;37m%s\033[0m\n" "$mailpit_line"
 printf "\033[1;36mMINIO:\033[0m   \033[1;37m%s\033[0m\n" "$minio_line"
-printf "\033[1;36mMYSQL:\033[0m   \033[1;37m%s\033[0m\n" "$mysql_line"
-printf "\033[1;36mREDIS:\033[0m   \033[1;37m%s\033[0m\n" "$redis_line"
+printf "\033[1;36mMARIADB:\033[0m \033[1;37m%s\033[0m\n" "$mariadb_line"
+printf "\033[1;36mVALKEY:\033[0m  \033[1;37m%s\033[0m\n" "$valkey_line"
 printf "\033[1;36mGIT:\033[0m     \033[1;37m%s\033[0m\n" "$git_line"
 echo ""
 

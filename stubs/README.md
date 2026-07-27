@@ -12,8 +12,8 @@ This project was initialized with [init.web.ap.it](https://init.web.ap.it) — a
 | **Admin panel** | `initUrl/panel` |
 | **Mailpit**     | `initMailpit`   |
 | **MinIO**       | `initMinio`     |
-| **MySQL**       | `initMysql`     |
-| **Redis**       | `initRedis`     |
+| **MariaDB**     | `initMariadb`   |
+| **Valkey**      | `initValkey`    |
 
 **Admin panel default credentials:** `test@example.com` / `password`  
 **MinIO default credentials:** `sail` / `password`
@@ -70,6 +70,12 @@ sh bin/pint.sh
 
 ```bash
 sh bin/stan.sh
+```
+
+**Security scan** ([Checkpoint](https://checkpoint.web.ap.it))
+
+```bash
+sh bin/scan.sh
 ```
 
 **AI product workflow** ([Larapilot](https://larapilot.web.ap.it) + Laravel Boost)
