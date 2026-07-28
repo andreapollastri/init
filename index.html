@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex, nofollow" />
-  <meta name="description" content="init — one command to scaffold a complete Laravel 13 + Filament local stack on macOS with Docker, SSL, and a real *.127001.it subdomain." />
+  <meta name="description"
+    content="init — one command to scaffold a complete Laravel 13 + Filament local stack on macOS with Docker, SSL, and a real *.127001.it subdomain." />
   <title>init — Laravel &amp; Filament Initializer</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet" />
   <style>
     :root {
       --ink: #141820;
@@ -31,7 +36,13 @@
       --docs-sidebar: 200px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     html {
       scroll-behavior: smooth;
@@ -47,8 +58,14 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    a { color: inherit; }
-    code, pre { font-family: var(--mono); }
+    a {
+      color: inherit;
+    }
+
+    code,
+    pre {
+      font-family: var(--mono);
+    }
 
     .atmosphere {
       position: fixed;
@@ -99,7 +116,10 @@
       color: var(--ink);
     }
 
-    .nav-brand svg { width: 1.55rem; height: 1.55rem; }
+    .nav-brand svg {
+      width: 1.55rem;
+      height: 1.55rem;
+    }
 
     .nav-links {
       display: flex;
@@ -115,7 +135,9 @@
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--signal); }
+    .nav-links a:hover {
+      color: var(--signal);
+    }
 
     .nav-cta {
       display: inline-flex;
@@ -153,9 +175,17 @@
       transition: transform 0.2s, opacity 0.2s;
     }
 
-    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
     /* Hero */
     .hero {
@@ -206,7 +236,9 @@
       animation: rise 0.75s ease both;
     }
 
-    .hero-brand span { color: var(--phosphor); }
+    .hero-brand span {
+      color: var(--phosphor);
+    }
 
     .hero-content h1 {
       font-family: var(--display);
@@ -220,7 +252,7 @@
       animation: rise 0.75s 0.08s ease both;
     }
 
-    .hero-content > p {
+    .hero-content>p {
       color: rgba(232, 238, 246, 0.72);
       max-width: 34rem;
       font-size: 1.05rem;
@@ -250,7 +282,9 @@
       transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
     }
 
-    .btn:active { transform: translateY(1px); }
+    .btn:active {
+      transform: translateY(1px);
+    }
 
     .btn-primary {
       background: var(--phosphor);
@@ -297,12 +331,29 @@
       min-height: 9rem;
     }
 
-    .hero-terminal .prompt { color: var(--phosphor); }
-    .hero-terminal .dim { color: rgba(232, 238, 246, 0.45); }
-    .hero-terminal .ok { color: #5ddea0; }
-    .hero-terminal .info { color: var(--phosphor); }
-    .hero-terminal .warn { color: #f0b429; }
-    .hero-terminal .url { color: #9ec2ff; }
+    .hero-terminal .prompt {
+      color: var(--phosphor);
+    }
+
+    .hero-terminal .dim {
+      color: rgba(232, 238, 246, 0.45);
+    }
+
+    .hero-terminal .ok {
+      color: #5ddea0;
+    }
+
+    .hero-terminal .info {
+      color: var(--phosphor);
+    }
+
+    .hero-terminal .warn {
+      color: #f0b429;
+    }
+
+    .hero-terminal .url {
+      color: #9ec2ff;
+    }
 
     .caret {
       display: inline-block;
@@ -314,16 +365,32 @@
       animation: blink 1.05s step-end infinite;
     }
 
-    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
 
     @keyframes rise {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @keyframes grid-drift {
-      from { background-position: 0 0; }
-      to { background-position: 40px 40px; }
+      from {
+        background-position: 0 0;
+      }
+
+      to {
+        background-position: 40px 40px;
+      }
     }
 
     /* Docs shell */
@@ -372,7 +439,9 @@
       background: rgba(59, 111, 217, 0.08);
     }
 
-    .docs-main { min-width: 0; }
+    .docs-main {
+      min-width: 0;
+    }
 
     .docs-main section {
       padding-bottom: 2.75rem;
@@ -403,9 +472,13 @@
     }
 
     .docs-main p,
-    .docs-main li { color: var(--ink-soft); }
+    .docs-main li {
+      color: var(--ink-soft);
+    }
 
-    .docs-main p + p { margin-top: 0.85rem; }
+    .docs-main p+p {
+      margin-top: 0.85rem;
+    }
 
     .docs-main .lead {
       font-size: 1.12rem;
@@ -419,7 +492,9 @@
       margin: 0.85rem 0 0 1.2rem;
     }
 
-    .docs-main li + li { margin-top: 0.35rem; }
+    .docs-main li+li {
+      margin-top: 0.35rem;
+    }
 
     .docs-main a {
       color: var(--signal-deep);
@@ -428,7 +503,9 @@
       border-bottom: 1px solid transparent;
     }
 
-    .docs-main a:hover { border-bottom-color: var(--signal); }
+    .docs-main a:hover {
+      border-bottom-color: var(--signal);
+    }
 
     .docs-main code {
       font-size: 0.88em;
@@ -489,7 +566,8 @@
       font-size: 0.95rem;
     }
 
-    th, td {
+    th,
+    td {
       text-align: left;
       padding: 0.7rem 0.9rem;
       border-bottom: 1px solid var(--line);
@@ -506,9 +584,13 @@
       background: rgba(20, 24, 32, 0.03);
     }
 
-    tr:last-child td { border-bottom: 0; }
+    tr:last-child td {
+      border-bottom: 0;
+    }
 
-    td code { white-space: nowrap; }
+    td code {
+      white-space: nowrap;
+    }
 
     .note {
       margin: 1.1rem 0;
@@ -519,7 +601,9 @@
       font-size: 0.97rem;
     }
 
-    .note strong { color: var(--ink); }
+    .note strong {
+      color: var(--ink);
+    }
 
     .stack-list {
       margin: 1.25rem 0 0;
@@ -542,7 +626,10 @@
       letter-spacing: -0.02em;
     }
 
-    .stack-row span { color: var(--muted); font-size: 0.95rem; }
+    .stack-row span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
 
     .steps {
       margin: 1.25rem 0 0;
@@ -570,7 +657,9 @@
       font-size: 1.05rem;
     }
 
-    .step p { margin: 0; }
+    .step p {
+      margin: 0;
+    }
 
     .pair {
       margin-top: 3rem;
@@ -578,7 +667,9 @@
       border-top: 1px solid var(--line);
     }
 
-    .pair h2 { margin-bottom: 0.4rem; }
+    .pair h2 {
+      margin-bottom: 0.4rem;
+    }
 
     .pair .btn {
       margin-top: 1.1rem;
@@ -606,9 +697,13 @@
       font-weight: 600;
     }
 
-    footer a:hover { text-decoration: underline; }
+    footer a:hover {
+      text-decoration: underline;
+    }
 
-    footer p + p { margin-top: 0.35rem; }
+    footer p+p {
+      margin-top: 0.35rem;
+    }
 
     @media (max-width: 880px) {
       .docs {
@@ -626,7 +721,9 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .docs-nav-label { width: 100%; }
+      .docs-nav-label {
+        width: 100%;
+      }
 
       .docs-nav a {
         border-left: 0;
@@ -647,7 +744,9 @@
     }
 
     @media (max-width: 720px) {
-      .hamburger { display: flex; }
+      .hamburger {
+        display: flex;
+      }
 
       .nav-links {
         display: none;
@@ -663,20 +762,32 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .nav-links.open { display: flex; }
+      .nav-links.open {
+        display: flex;
+      }
 
       .nav-links a {
         padding: 0.75rem 0.25rem;
         border-bottom: 1px solid var(--line);
       }
 
-      .nav-cta { justify-content: center; margin-top: 0.5rem; border: 0; }
+      .nav-cta {
+        justify-content: center;
+        margin-top: 0.5rem;
+        border: 0;
+      }
 
-      .hero { min-height: auto; }
-      .hero-content { padding-top: 3rem; }
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-content {
+        padding-top: 3rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
 
@@ -701,7 +812,8 @@
       <p>One command. Full local stack. Zero manual config — Docker, SSL, and a real subdomain on your Mac.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#install">Install init</a>
-        <a class="btn btn-ghost" href="https://github.com/andreapollastri/init" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/andreapollastri/init" target="_blank" rel="noopener">View on
+          GitHub</a>
       </div>
     </div>
     <div class="hero-terminal" aria-hidden="true">
@@ -723,13 +835,16 @@
     <main class="docs-main">
       <section id="install">
         <h2>Install</h2>
-        <p class="lead">One line. No Homebrew, no global packages, no hosts file edits — the installer scaffolds everything into the current directory.</p>
+        <p class="lead">One line. No Homebrew, no global packages, no hosts file edits — the installer scaffolds
+          everything into the current directory.</p>
         <div class="code-block">
-          <button class="copy" type="button" data-copy="curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh">Copy</button>
+          <button class="copy" type="button"
+            data-copy="curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh">Copy</button>
           <pre><code>curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh</code></pre>
         </div>
         <div class="note">
-          <strong>Requirement:</strong> <a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener">Docker Desktop</a> on macOS must be running before you start.
+          <strong>Requirement:</strong> <a href="https://www.docker.com/products/docker-desktop" target="_blank"
+            rel="noopener">Docker Desktop</a> on macOS must be running before you start.
         </div>
       </section>
 
@@ -741,9 +856,11 @@
             <div class="step-n">01</div>
             <div>
               <h3>Run the installer</h3>
-              <p>Paste the install command. The script downloads itself and drives the full setup — no global install needed.</p>
+              <p>Paste the install command. The script downloads itself and drives the full setup — no global install
+                needed.</p>
               <div class="code-block">
-                <button class="copy" type="button" data-copy="curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh">Copy</button>
+                <button class="copy" type="button"
+                  data-copy="curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh">Copy</button>
                 <pre><code>curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh</code></pre>
               </div>
             </div>
@@ -752,7 +869,8 @@
             <div class="step-n">02</div>
             <div>
               <h3>Name your project</h3>
-              <p>Choose a subdomain. That name becomes <code>your-name.127001.it</code> — nothing leaves your machine.</p>
+              <p>Choose a subdomain. That name becomes <code>your-name.127001.it</code> — nothing leaves your machine.
+              </p>
             </div>
           </div>
           <div class="step">
@@ -770,21 +888,29 @@
         <p class="lead">A production-parity local environment so you can focus on features — not tooling.</p>
         <div class="stack-list">
           <div class="stack-row"><strong>Laravel 13</strong><span>Application framework, freshly scaffolded</span></div>
-          <div class="stack-row"><strong>Filament 5</strong><span>Admin panel and form builder, ready to use</span></div>
-          <div class="stack-row"><strong>Laravel Sail</strong><span>Docker-based PHP, MariaDB, Valkey, and companions</span></div>
-          <div class="stack-row"><strong>MariaDB &amp; Valkey</strong><span>Database and cache preconfigured</span></div>
+          <div class="stack-row"><strong>Filament 5</strong><span>Admin panel and form builder, ready to use</span>
+          </div>
+          <div class="stack-row"><strong>Laravel Sail</strong><span>Docker-based PHP, MariaDB, Valkey, and
+              companions</span></div>
+          <div class="stack-row"><strong>MariaDB &amp; Valkey</strong><span>Database and cache preconfigured</span>
+          </div>
           <div class="stack-row"><strong>Mailpit</strong><span>Local email testing UI</span></div>
           <div class="stack-row"><strong>MinIO</strong><span>S3-compatible local object storage</span></div>
-          <div class="stack-row"><strong>Caddy + SSL</strong><span>Trusted local HTTPS with no browser warnings</span></div>
-          <div class="stack-row"><strong>*.127001.it</strong><span>Real subdomain — no <code>/etc/hosts</code> edits</span></div>
-          <div class="stack-row"><strong>Quality tooling</strong><span>Pint, PHPStan/Larastan, Checkpoint, Boost, GitHub Actions CI</span></div>
-          <div class="stack-row"><strong>Larapilot</strong><span>Spec-driven AI workflow — Boost skills published automatically</span></div>
+          <div class="stack-row"><strong>Caddy + SSL</strong><span>Trusted local HTTPS with no browser warnings</span>
+          </div>
+          <div class="stack-row"><strong>*.127001.it</strong><span>Real subdomain — no <code>/etc/hosts</code>
+              edits</span></div>
+          <div class="stack-row"><strong>Quality tooling</strong><span>Pint, PHPStan/Larastan, Checkpoint, Boost, GitHub
+              Actions CI</span></div>
+          <div class="stack-row"><strong>Larapilot</strong><span>Spec-driven AI workflow — Boost skills published
+              automatically</span></div>
         </div>
       </section>
 
       <section id="dns">
         <h2>Powered by 127001.it</h2>
-        <p class="lead">Every project gets a real subdomain under <code>*.127001.it</code> — free wildcard DNS that resolves to <code>127.0.0.1</code>.</p>
+        <p class="lead">Every project gets a real subdomain under <code>*.127001.it</code> — free wildcard DNS that
+          resolves to <code>127.0.0.1</code>.</p>
         <div class="table-wrap">
           <table>
             <thead>
@@ -805,7 +931,8 @@
             </tbody>
           </table>
         </div>
-        <p>Zero setup. No accounts. Infinite subdomains. Always free. Learn more at <a href="https://127001.it" target="_blank" rel="noopener">127001.it</a>.</p>
+        <p>Zero setup. No accounts. Infinite subdomains. Always free. Learn more at <a href="https://127001.it"
+            target="_blank" rel="noopener">127001.it</a>.</p>
       </section>
 
       <section id="scripts">
@@ -821,16 +948,56 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Setup</td><td><code>sh bin/setup.sh</code></td><td>First-run install (skip if you used the initializer)</td></tr>
-              <tr><td>Start</td><td><code>sh bin/start.sh</code></td><td>Start all Docker containers</td></tr>
-              <tr><td>Stop</td><td><code>sh bin/stop.sh</code></td><td>Stop all Docker containers</td></tr>
-              <tr><td>Test</td><td><code>sh bin/test.sh</code></td><td>Run the test suite via PHPUnit</td></tr>
-              <tr><td>Lint</td><td><code>sh bin/pint.sh</code></td><td>Fix code style with Laravel Pint</td></tr>
-              <tr><td>Analyse</td><td><code>sh bin/stan.sh</code></td><td>Static analysis with PHPStan / Larastan</td></tr>
-              <tr><td>Jobs</td><td><code>sh bin/jobs.sh</code></td><td>Start the queue worker</td></tr>
-              <tr><td>Cache</td><td><code>sh bin/cache.sh</code></td><td>Clear application caches</td></tr>
-              <tr><td>DB Refresh</td><td><code>sh bin/fresh.sh</code></td><td>Drop, migrate, and re-seed</td></tr>
-              <tr><td>Bash</td><td><code>sh bin/bash.sh</code></td><td>Shell inside the app container</td></tr>
+              <tr>
+                <td>Setup</td>
+                <td><code>sh bin/setup.sh</code></td>
+                <td>First-run install (skip if you used the initializer)</td>
+              </tr>
+              <tr>
+                <td>Start</td>
+                <td><code>sh bin/start.sh</code></td>
+                <td>Start all Docker containers</td>
+              </tr>
+              <tr>
+                <td>Stop</td>
+                <td><code>sh bin/stop.sh</code></td>
+                <td>Stop all Docker containers</td>
+              </tr>
+              <tr>
+                <td>Test</td>
+                <td><code>sh bin/test.sh</code></td>
+                <td>Run the test suite via PHPUnit</td>
+              </tr>
+              <tr>
+                <td>Lint</td>
+                <td><code>sh bin/pint.sh</code></td>
+                <td>Fix code style with Laravel Pint</td>
+              </tr>
+              <tr>
+                <td>Analyse</td>
+                <td><code>sh bin/stan.sh</code></td>
+                <td>Static analysis with PHPStan / Larastan</td>
+              </tr>
+              <tr>
+                <td>Jobs</td>
+                <td><code>sh bin/jobs.sh</code></td>
+                <td>Start the queue worker</td>
+              </tr>
+              <tr>
+                <td>Cache</td>
+                <td><code>sh bin/cache.sh</code></td>
+                <td>Clear application caches</td>
+              </tr>
+              <tr>
+                <td>DB Refresh</td>
+                <td><code>sh bin/fresh.sh</code></td>
+                <td>Drop, migrate, and re-seed</td>
+              </tr>
+              <tr>
+                <td>Bash</td>
+                <td><code>sh bin/bash.sh</code></td>
+                <td>Shell inside the app container</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -838,7 +1005,9 @@
 
       <section id="production">
         <h2>Take it to production</h2>
-        <p class="lead">Once the app is ready locally, deploy Laravel to any Ubuntu VPS with <a href="https://cipi.sh" target="_blank" rel="noopener">cipi.sh</a> — PHP-FPM, MariaDB, Nginx, Let's Encrypt, zero-downtime releases.</p>
+        <p class="lead">Once the app is ready locally, deploy Laravel to any Ubuntu VPS with <a href="https://cipi.sh"
+            target="_blank" rel="noopener">cipi.sh</a> — PHP-FPM, MariaDB, Nginx, Let's Encrypt, zero-downtime releases.
+        </p>
         <div class="code-block">
           <button class="copy" type="button" data-copy="wget -O - https://cipi.sh/setup.sh | bash">Copy</button>
           <pre><code>wget -O - https://cipi.sh/setup.sh | bash</code></pre>
@@ -860,7 +1029,8 @@
   </div>
 
   <footer>
-    <p>Open source · MIT · <a href="https://github.com/andreapollastri/init" target="_blank" rel="noopener">GitHub</a></p>
+    <p>Open source · MIT · <a href="https://github.com/andreapollastri/init" target="_blank" rel="noopener">GitHub</a>
+    </p>
     <p>Made by <a href="https://web.ap.it" target="_blank" rel="noopener">Andrea Pollastri</a></p>
   </footer>
 
@@ -946,7 +1116,9 @@
       setTimeout(run, 600);
     })();
   </script>
-  <script async src="https://stats.web.ap.it/i/d21644ed-05b4-407c-a329-cd098faa6b7c.js"></script>
-  <noscript><img src="https://stats.web.ap.it/collect/pixel.gif?k=d21644ed-05b4-407c-a329-cd098faa6b7c&p=/" width="1" height="1" alt="" /></noscript>
+  <script async src="https://stats.misterdev.it/i/4b8bc300-f736-46ca-b0f5-f63744bf28aa.js"></script>
+  <noscript><img src="https://stats.misterdev.it/collect/pixel.gif?k=4b8bc300-f736-46ca-b0f5-f63744bf28aa&p=/" width="1"
+      height="1" /></noscript>
 </body>
+
 </html>
