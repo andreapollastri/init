@@ -2,8 +2,11 @@
 
 # curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh
 
-PHP_VERSION=8.5
-# Composer-only image used for scaffolding (laravelsail/php85-composer is not published yet)
+# PHP 8.4 until Laravel Sail fully supports newer versions:
+# 8.5 is only partially supported (no laravelsail/php85-composer image),
+# 8.6 is not supported yet (runtimes/8.6 pending in laravel/sail#907).
+PHP_VERSION=8.4
+# Composer image used for scaffolding steps
 COMPOSER_PHP_ATTR=php84
 MARIADB_VERSION=11
 FILAMENT_VERSION=5.0
