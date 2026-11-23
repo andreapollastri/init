@@ -187,6 +187,31 @@
       transform: translateY(-7px) rotate(-45deg);
     }
 
+    /* PHP notice */
+    .php-notice {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      max-width: 40rem;
+      margin-bottom: 1.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: rgba(232, 238, 246, 0.9);
+      background: rgba(255, 196, 87, 0.1);
+      border: 1px solid rgba(255, 196, 87, 0.45);
+      border-left-width: 3px;
+      animation: rise 0.75s ease both;
+    }
+
+    .php-notice strong {
+      color: #ffd38a;
+    }
+
+    .php-notice a {
+      color: var(--phosphor);
+    }
+
     /* Hero */
     .hero {
       position: relative;
@@ -807,6 +832,12 @@
   <header class="hero">
     <div class="hero-plane" aria-hidden="true"></div>
     <div class="hero-content">
+      <div class="php-notice" role="note">
+        <span aria-hidden="true">⚠️</span>
+        <span><strong>Projects are installed on PHP 8.4.</strong> PHP 8.5 is only partially supported by Laravel Sail
+          and PHP 8.6 is not supported yet (<a href="https://github.com/laravel/sail/pull/907" target="_blank"
+            rel="noopener">laravel/sail#907</a>). init will upgrade as soon as Sail fully supports them.</span>
+      </div>
       <div class="hero-brand">init<span>.</span></div>
       <h1>Laravel &amp; Filament, ready in seconds.</h1>
       <p>One command. Full local stack. Zero manual config — Docker, SSL, and a real subdomain on your Mac.</p>
@@ -887,6 +918,8 @@
         <h2>What's included</h2>
         <p class="lead">A production-parity local environment so you can focus on features — not tooling.</p>
         <div class="stack-list">
+          <div class="stack-row"><strong>PHP 8.4</strong><span>Runtime — 8.5 partially supported by Sail, 8.6 not
+              yet supported</span></div>
           <div class="stack-row"><strong>Laravel 13</strong><span>Application framework, freshly scaffolded</span></div>
           <div class="stack-row"><strong>Filament 5</strong><span>Admin panel and form builder, ready to use</span>
           </div>

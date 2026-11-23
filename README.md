@@ -4,12 +4,17 @@
 
 **init** is a free, open-source installer that scaffolds a complete Laravel + Filament local environment on your Mac in seconds — no Homebrew, no global packages, no hosts file edits.
 
+> [!IMPORTANT]
+> **init currently installs projects on PHP 8.4.**
+> PHP 8.5 is only partially supported by Laravel Sail (runtime available, but no official `laravelsail/php85-composer` image), and PHP 8.6 is not supported yet ([laravel/sail#907](https://github.com/laravel/sail/pull/907) is still pending). init will move to a newer PHP version as soon as Sail fully supports it.
+
 ---
 
 ## What's included
 
 | Tool               | Version | Purpose                      |
 | ------------------ | ------- | ---------------------------- |
+| PHP                | 8.4     | Runtime (see note above)     |
 | Laravel            | 13      | Application framework        |
 | Filament           | 5       | Admin panel & form builder   |
 | Laravel Sail       | latest  | Docker-based dev environment |
