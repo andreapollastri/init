@@ -2,8 +2,9 @@
 
 # curl https://init.web.ap.it/bin/go.sh > go.sh && sh go.sh
 
-PHP_VERSION_ATTR=php84
-PHP_VERSION=8.4
+PHP_VERSION=8.5
+# Composer-only image used for scaffolding (laravelsail/php85-composer is not published yet)
+COMPOSER_PHP_ATTR=php84
 MARIADB_VERSION=11
 FILAMENT_VERSION=5.0
 LARAVEL_VERSION=13
@@ -113,7 +114,7 @@ curl -s $ENDPOINT/stubs/bin/jobs.sh > bin/jobs.sh
 curl -s $ENDPOINT/stubs/bin/test.sh > bin/test.sh
 curl -s $ENDPOINT/stubs/bin/stan.sh > bin/stan.sh
 curl -s $ENDPOINT/stubs/bin/scan.sh > bin/scan.sh
-sed -i '' "s/PHPV/$PHP_VERSION_ATTR/" bin/setup.sh
+sed -i '' "s/PHPV/$COMPOSER_PHP_ATTR/" bin/setup.sh
 
 
 
@@ -126,7 +127,7 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/$PHP_VERSION_ATTR-composer:latest \
+    laravelsail/$COMPOSER_PHP_ATTR-composer:latest \
     composer create-project laravel/laravel cache
 
 mv cache/.* .
@@ -151,7 +152,7 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/$PHP_VERSION_ATTR-composer:latest \
+    laravelsail/$COMPOSER_PHP_ATTR-composer:latest \
     composer config minimum-stability $COMPOSER_MINIMUM_STABILITY
 
 
@@ -165,7 +166,7 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/$PHP_VERSION_ATTR-composer:latest \
+    laravelsail/$COMPOSER_PHP_ATTR-composer:latest \
     composer require laravel/sail --dev
 
 
@@ -179,7 +180,7 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/$PHP_VERSION_ATTR-composer:latest \
+    laravelsail/$COMPOSER_PHP_ATTR-composer:latest \
     composer update
 
 
